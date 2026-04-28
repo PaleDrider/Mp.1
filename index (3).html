@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<!-- =========================================================
+     index.html — Pagrindinis žaidimo failas "Vilniaus Aidai"
+     Visi ekranai yra šiame faile kaip <div class="screen">
+     Rodyti/slėpti juos valdo game.js
+     ========================================================= -->
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vilniaus Aidai</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- =====================================================
+       TITULINIS EKRANAS
+       Rodomas pirmas. Turi meniu: Žaisti / Nustatymai / Kreditai
+       ===================================================== -->
+  <div id="screen-title" class="screen active">
+    <canvas id="title-bg-canvas"></canvas>
+    <div class="title-overlay">
+      <h1 class="game-title">VILNIAUS<br>AIDAI</h1>
+      <p class="game-subtitle">Interaktyvi miesto legenda</p>
+      <nav class="main-menu">
+        <button class="menu-btn" id="btn-play">[ ŽAISTI ]</button>
+        <button class="menu-btn" id="btn-options">[ NUSTATYMAI ]</button>
+        <button class="menu-btn" id="btn-credits">[ KREDITAI ]</button>
+      </nav>
+    </div>
+    <div class="version-tag">v0.1.0-alpha</div>
+  </div>
+
+  <!-- =====================================================
+       NUSTATYMŲ PERDANGA (OVERLAY)
+       Rodo muzikos / SFX / šrifto valdiklius
+       Saugoma localStorage kad išliktų tarp sesijų
+       ===================================================== -->
+  <div id="overlay-options" class="overlay hidden">
+    <div class="overlay-box">
+      <h2>NUSTATYMAI</h2>
+      <div class="option-row">
+        <span>Muzika</span>
+        <button class="toggle-btn" id="toggle-music" data-active="true">ĮJUNGTA</button>
+      </div>
+      <div class="option-row">
+        <span>Garsai (SFX)</span>
+        <button class="toggle-btn" id="toggle-sfx" data-active="true">ĮJUNGTI</button>
+      </div>
+      <div class="option-row">
+        <span>Šrifto dydis</span>
+        <div class="font-size-btns">
+          <button class="size-btn" data-size="small">M</button>
+          <button class="size-btn active" data-size="medium">V</button>
+          <button class="size-btn" data-size="large">D</button>
+        </div>
+      </div>
+      <button class="close-btn" id="close-options">[ UŽDARYTI ]</button>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       KREDITŲ PERDANGA
+       ===================================================== -->
+  <div id="overlay-credits" class="overlay hidden">
+    <div class="overlay-box">
+      <h2>KREDITAI</h2>
+      <p>Koncepcija ir kūryba: <em>[Jūsų vardas]</em></p>
+      <p>Variklis: HTML / CSS / JavaScript</p>
+      <p>Muzika: Web Audio API (procedūrinė)</p>
+      <p>AI tekstai: Gemini Flash / Ollama lokalus AI</p>
+      <p>Paveikslėliai: Perchance.ai</p>
+      <p class="small-text mt">Visos vietos realios. Visos istorijos išgalvotos.</p>
+      <p class="small-text">Vilnius, 2025</p>
+      <button class="close-btn" id="close-credits">[ UŽDARYTI ]</button>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       KODO EKRANAS
+       Žaidėjas gauna atsitiktinį kodą arba įveda savą.
+       Kiekvienas skaitmuo = 6 papildomi bitai.
+       Min 3, maks 10 skaitmenų.
+       ===================================================== -->
+  <div id="screen-code" class="screen hidden">
+    <div class="screen-inner">
+      <h2>KELIONĖS KODAS</h2>
+      <p class="hint-text">
+        Kiekvienas skaitmuo — vienas kelio skyrius.<br>
+        Min. 3, maks. 10 skaitmenų. 0 = atsitiktinė istorija.
+      </p>
+
+      <!-- Automatiškai sugeneruotas kodas -->
+      <div id="auto-code-display" class="code-display"></div>
+      <button id="btn-reroll" class="secondary-btn">[ NAUJAS KODAS ]</button>
+
+      <div class="divider">— arba įveskite savą —</div>
+
+      <!-- Savo kodo laukas -->
+      <input type="text" id="custom-code-input"
+             placeholder="pvz: 314159"
+             maxlength="10"
+             autocomplete="off"
+             inputmode="numeric">
+      <div id="code-error" class="error-text hidden">Klaida</div>
+      <div id="code-info" class="code-info"></div>
+
+      <button id="btn-start-journey" class="primary-btn">[ PRADĖTI KELIONĘ ]</button>
+      <button id="btn-back-from-code" class="back-btn">← Grįžti</button>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       PROFILIO EKRANAS
+       Rodomas sugeneruotas pikselinis avataras.
+       Statistikos paslėptos — tik vizualinės užuominos.
+       ===================================================== -->
+  <div id="screen-profile" class="screen hidden">
+    <div class="screen-inner">
+      <h2>JŪSŲ KELIAUTOJAS</h2>
+      <!-- Pikselinis avataras — piešiamas JS Canvas API -->
+      <canvas id="avatar-canvas" width="128" height="128"></canvas>
+      <!-- Tekstinės užuominos apie statistikas (ne skaičiai) -->
+      <div id="avatar-hints" class="avatar-hints"></div>
+      <p class="flavor-text" id="profile-flavor"></p>
+      <button id="btn-begin" class="primary-btn">[ PRADĖTI KELIONĘ ]</button>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       PAGRINDINIS ŽAIDIMO EKRANAS (BITO EKRANAS)
+       Rodo sceną, tekstą ir 4 pasirinkimus.
+       Pasirinkimai rodomi tik po 10 sek. (bot apsauga).
+       ===================================================== -->
+  <div id="screen-bit" class="screen hidden">
+
+    <!-- Fono paveikslėlis — Canvas sluoksniuotas compositor.js -->
+    <canvas id="scene-canvas" class="scene-canvas"></canvas>
+    <!-- Tamsinantis gradientas kad tekstas būtų įskaitomas -->
+    <div class="scene-overlay"></div>
+
+    <!-- Viršutinė juosta: skaitiklis, žymos, "Baigti" mygtukas -->
+    <div class="top-bar">
+      <div id="bit-counter" class="bit-counter">1 / 18</div>
+      <div id="story-tags" class="story-tags"></div>
+      <!-- Baigti žaidimą anksčiau — visada matomas -->
+      <button id="btn-end-game" class="end-btn">[ BAIGTI ]</button>
+    </div>
+
+    <!-- Laiko juosta (vizualinis laikmaitis) -->
+    <div class="timer-wrap">
+      <div id="timer-bar" class="timer-bar"></div>
+      <div id="timer-phase-label" class="timer-phase-label">Skaitoma...</div>
+    </div>
+
+    <!-- Pagrindinis bito turinys -->
+    <div class="bit-content">
+      <!-- Vietovardis -->
+      <h3 id="bit-location" class="bit-location"></h3>
+      <!-- Naratyvo tekstas — rašomosios mašinėlės efektas -->
+      <div id="bit-text" class="bit-text"></div>
+    </div>
+
+    <!-- 4 pasirinkimų mygtukai — rodomi po 10 sek. -->
+    <div id="choices-wrap" class="choices-wrap hidden">
+      <button class="choice-btn" data-index="0"></button>
+      <button class="choice-btn" data-index="1"></button>
+      <button class="choice-btn" data-index="2"></button>
+      <button class="choice-btn" data-index="3"></button>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       KELIONĖS EKRANAS
+       Rodomas po kiekvieno pasirinkimo.
+       Trukmė: 1–5 sek. pagal skaitymo laiką.
+       Pikselinis avataras eina animacijoje.
+       ===================================================== -->
+  <div id="screen-travel" class="screen hidden">
+    <div class="travel-scene">
+      <!-- Animuotas kelionės vaizdas -->
+      <canvas id="travel-canvas" class="travel-canvas"></canvas>
+      <!-- Paslaptinga lore užuomina -->
+      <div id="travel-lore" class="travel-lore"></div>
+    </div>
+    <!-- Mygtukas baigti kelionę visiškai -->
+    <button id="btn-skip-travel" class="end-btn travel-skip">[ BAIGTI KELIONĘ ]</button>
+  </div>
+
+  <!-- =====================================================
+       EPILOGO EKRANAS
+       Galutinis rezultatas, statistikos, archetipas.
+       ===================================================== -->
+  <div id="screen-epilogue" class="screen hidden">
+    <div class="epilogue-inner">
+      <h2>KELIONĖ BAIGTA</h2>
+      <canvas id="epilogue-avatar" width="96" height="96"></canvas>
+      <!-- Statistikų tinklelis -->
+      <div id="epilogue-stats" class="epilogue-stats"></div>
+      <!-- Narratyvinis epilogas pagal archetiną -->
+      <div id="epilogue-text" class="epilogue-text"></div>
+      <!-- Galutinis taškas -->
+      <div id="final-score" class="final-score"></div>
+      <button id="btn-play-again" class="primary-btn">[ ŽAISTI IŠ NAUJO ]</button>
+      <button id="btn-back-title" class="secondary-btn">[ TITULINIS EKRANAS ]</button>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       ĮKĖLIMO PERDANGA
+       Rodoma kai kraunami paveikslėliai arba AI duomenys
+       ===================================================== -->
+  <div id="overlay-loading" class="overlay hidden">
+    <div class="loading-content">
+      <!-- Pikselių šokio animacija (CSS) -->
+      <div class="pixel-loader">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <p id="loading-text" class="loading-text">Kraunama...</p>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       JS FAILAI — TVARKA SVARBI:
+       1. data.js     — duomenys turi būti pirmiausia
+       2. audio.js    — muzikos variklis
+       3. compositor.js — paveikslėlių sujungimas
+       4. game.js     — pagrindinis variklis (naudoja viską)
+       ===================================================== -->
+  <script src="js/data.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/compositor.js"></script>
+  <script src="js/game.js"></script>
+
+</body>
+</html>
