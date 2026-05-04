@@ -1,15 +1,9 @@
-// ═══════════════════════════════════════════════════
-// stories/story_1.js — "Akmens Pasaka"
-// KAIP NAUDOTI: Norėdami pakeisti šią istoriją —
-//   1. Ištrinkite šį failą
-//   2. Sugeneruokite naują: ./scripts/generate.sh --id 1
-//   3. Įkelkite naują story_1.js
-// ═══════════════════════════════════════════════════
+
 
 window.STORIES[1] = {
   id: 1,
   name: 'Akmens Pasaka',
-  description: 'Senas akmuo Pilies gatvėje slepia miesto atmintį.',
+  description: 'Senas akmuo Žirmūnų gatvėje slepia miesto atmintį.',
   status: 'active',
   killCount: 0,
   retiredAt: null,
@@ -18,8 +12,8 @@ window.STORIES[1] = {
   bits: {
     1: {
       id: 1, isFinale: false,
-      title: 'Akmuo Pilies gatvėje',
-      narrative: `Pilies gatvė šią naktį neįprastai tuščia. Grindinio akmenys blizga po vakarykščio lietaus, kiekvienas jų atspindintis žibinto šviesą kaip mažas veidrodis. Ties sena siena, kur gatvė lenkiasi link Katedros aikštės, kažkas padėjo neįprastą akmenį — pernelyg lygiai aptašytą, pernelyg taisyklingą, kad būtų atsitiktinis. Žibinto šviesa krenta ant jo kaip rodo pirštą. Tu sustoji. Visas miestas, rodos, sulaiko kvapą kartu su tavimi.`,
+      title: 'Akmuo Žirmūnų gatvėje',
+      narrative: `Žirmūnų gatvė šią naktį neįprastai tuščia. Grindinio akmenys blizga po vakarykščio lietaus, kiekvienas jų atspindintis žibinto šviesą kaip mažas veidrodis. Ties sena siena, kur gatvė lenkiasi link Katedros aikštės, kažkas padėjo neįprastą akmenį — pernelyg lygiai aptašytą, pernelyg taisyklingą, kad būtų atsitiktinis. Žibinto šviesa krenta ant jo kaip rodo pirštą. Tu sustoji. Visas miestas, rodos, sulaiko kvapą kartu su tavimi.`,
       location: 'Pilies gatvė',
       imageTags: { background: 'street_narrow', atmosphere: 'night' },
       choices: [
@@ -32,8 +26,8 @@ window.STORIES[1] = {
     },
     2: {
       id: 2, isFinale: false,
-      title: 'Katedros aikštė naktį',
-      narrative: `Tu eini toliau. Bet paskui atsigręži. Akmuo vis dar ten, žibinto apšviestas kaip relikvija altoriuje. Katedros aikštė atsiveria prieš tave — didžiulė ir tuščia, tik bažnyčios bokštai kerta naktinį dangų. Aikštės akmenimis atsimuša tavo žingsniai. Kažkur toli šuo suloja, ir garsas nutolsta per senamiesčio labirintą. Tu sedi ant laiptų ir klausaisi kaip miestas kvepia po lietaus.`,
+      title: 'Aikštė naktį',
+      narrative: `Tu eini toliau. Bet paskui atsigręži. Akmuo vis dar ten, žibinto apšviestas kaip relikvija altoriuje. Aikštė atsiveria prieš tave — didžiulė ir tuščia, tik bažnyčios bokštai kerta naktinį dangų. Aikštės akmenimis atsimuša tavo žingsniai. Kažkur toli šuo suloja, ir garsas nutolsta per senamiesčio labirintą. Tu sedi ant laiptų ir klausaisi kaip miestas kvepia po lietaus.`,
       location: 'Katedros aikštė',
       imageTags: { background: 'cathedral_sq', atmosphere: 'night' },
       choices: [
@@ -99,8 +93,8 @@ window.STORIES[1] = {
     },
     7: {
       id: 7, isFinale: false,
-      title: 'Gedimino prospektas',
-      narrative: `Gedimino prospektas naktyje — tarsi teatro scena po spektaklio. Tuščios kėdės, nuleistos uždangos, bet dekoracijos dar stovi. Keletas vėlyvų praeivių, dviračių šviesos. Kažkur triukšmauja restoranas. Tu eini viduriniuoju pėsčiųjų taku ir jauti akmens svorį kišenėje — jei jis dar ten. Bokštas kalno viršuje blykčioja raudonai — aviacinis signalas, bet iš toli jis atrodo lyg senasis signalas.`,
+      title: 'Prospektas',
+      narrative: `Prospektas naktyje — tarsi teatro scena po spektaklio. Tuščios kėdės, nuleistos uždangos, bet dekoracijos dar stovi. Keletas vėlyvų praeivių, dviračių šviesos. Kažkur triukšmauja restoranas. Tu eini viduriniuoju pėsčiųjų taku ir jauti akmens svorį kišenėje — jei jis dar ten. Bokštas kalno viršuje blykčioja raudonai — aviacinis signalas, bet iš toli jis atrodo lyg senasis signalas.`,
       location: 'Gedimino prospektas',
       imageTags: { background: 'street_main', atmosphere: 'dusk' },
       choices: [
@@ -126,8 +120,8 @@ window.STORIES[1] = {
     },
     9: {
       id: 9, isFinale: false,
-      title: 'Bernardinų sodas',
-      narrative: `Bernardinų sodas prieš aušrą. Tamsoje medžiai dideli ir ramūs, jų lapai dar drėgni nuo nakties, krintantys vandens lašai skamba kaip mažas laikrodis. Upelė čiurlena per sodo pakraštį. Akmuo kišenėje, jei jis dar ten, dabar jaučiasi kitoks — lengvesnis, arba sunkesnis, nesi tikras. Kažkas šiame sode laukia tol, kol žmonės išeina, ir tada grįžta.`,
+      title: 'Sodas',
+      narrative: `Sodas prieš aušrą. Tamsoje medžiai dideli ir ramūs, jų lapai dar drėgni nuo nakties, krintantys vandens lašai skamba kaip mažas laikrodis. Upelė čiurlena per sodo pakraštį. Akmuo kišenėje, jei jis dar ten, dabar jaučiasi kitoks — lengvesnis, arba sunkesnis, nesi tikras. Kažkas šiame sode laukia tol, kol žmonės išeina, ir tada grįžta.`,
       location: 'Bernardinų sodas',
       imageTags: { background: 'park', atmosphere: 'dawn' },
       choices: [
@@ -140,7 +134,7 @@ window.STORIES[1] = {
     10: {
       id: 10, isFinale: true,
       title: 'Akmens paslaptis',
-      narrative: `Supranti. Tas akmuo buvo ženklas — ne tau asmeniškai, bet per tave. Vilnius turi savo atmintį, savo kalbą, kurios nereikia mokytis — ją reikia pajusti. Ir tu, nors trumpam, ją pajutai. Galbūt akmuo vis dar tavo kišenėje, galbūt jis jau kažkur miestas — prie upės, po medžiu, ant tilto. Pilies gatvė vėl tuščia. Bet ji kitokia. Tu kitoks. Miestas tęsia savo gyvenimą kaip tęsė jį prieš tave ir tęs po.`,
+      narrative: `Supranti. Tas akmuo buvo ženklas — ne tau asmeniškai, bet per tave. Vilnius turi savo atmintį, savo kalbą, kurios nereikia mokytis — ją reikia pajusti. Ir tu, nors trumpam, ją pajutai. Galbūt akmuo vis dar tavo kišenėje, galbūt jis jau kažkur miestas — prie upės, po medžiu, ant tilto. Gatvė vėl tuščia. Bet ji kitokia. Tu kitoks. Miestas tęsia savo gyvenimą kaip tęsė jį prieš tave ir tęs po.`,
       location: 'Pilies gatvė',
       imageTags: { background: 'street_narrow', atmosphere: 'dawn' },
       choices: []
