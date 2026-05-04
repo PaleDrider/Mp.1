@@ -48,7 +48,7 @@
      
 <div id="ov-credits" class="overlay hidden">//
   <div class="ov-box">
-    <h2>✦ Kreditai</h2>
+    <h2>Titrai</h2>
     <p>Koncepcija: <em>[Jūsų vardas]</em></p>
     <p>Tekstai: Qwen2.5-32B / Gemini</p>
     <p>Paveikslėliai: Perchance.ai</p>
@@ -58,16 +58,13 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════
-     KODO EKRANAS
-     ═══════════════════════════════════════════════════ -->
 <div id="scr-code" class="screen hidden">
   <div class="parchment-box">
     <div class="deco-div"></div>
     <h2>Kelionės kodas</h2>
        <p class="hint">Kiekvienas skaitmuo — istorijų skyrius.<br>Min. 3, maks. 10 skaitmenų.</p>
     <div id="code-digits" class="code-row"></div>
-    <button class="rpg-btn secondary" id="btn-reroll">↻ Naujas kodas</button>
+  <button class="rpg-btn secondary" id="btn-reroll">↻ Naujas kodas</button>
     <div class="or-line">— arba įveskite savą —</div>
     <input id="code-input" type="text" inputmode="numeric" maxlength="10" placeholder="pvz: 314159">
     <p id="code-err" class="err-txt hidden">Klaida</p>
@@ -89,16 +86,16 @@
     <button class="rpg-btn full" id="btn-begin">⚔ Pradėti kelionę</button>
   </div>
 </div>
-     //TODO
+    <!-- //TODO
      //Portretas | Vardas | Resursai
      //Laiko juosta + puslapio nr.
        //Score dėl įtraukimo
        //Stilių pritaikyti
        //Istorijos, tekstas, animacija, stiliai
        //Pasirinkimų sąrašas su % tikimybe
-     //Nutraukti žaidimą betkda.
+     //Nutraukti žaidimą betkda.-->
 <div id="scr-bit" class="screen hidden">
-  <div class="hud-top">//info juosta
+  <div class="hud-top"> <!--info juosta-->
     <div class="hud-left">
       <canvas id="hud-portrait" width="64" height="64" class="portrait"></canvas>
       <div class="stat-dots">
@@ -132,7 +129,7 @@
 <div class="scroll-area">
     <div class="deco-div"></div
     <div id="bit-loc" class="bit-loc">Žirmūnai</div>
-    //teorxktas
+    <!--teorxktas-->
     <div id="bit-text" class="bit-text"></div>
    <div id="outcome-label" class="outcome-label hidden"></div>
     <div id="outcome-text" class="outcome-text hidden"></div>
@@ -142,13 +139,13 @@
  <div id="choices-wrap" class="choices-list hidden">
     </div>
   </div>
-<div class="bottom-bar">//taisumas
+<div class="bottom-bar"><!--taisumas-->
 <button class="bot-ico" id="btn-end" title="Baigti kelionę">✕ Baigti</button>
  <div id="timer-label" class="timer-label">Skaitoma...</div>
  <div id="timer-bar" class="timer-strip"><div id="timer-fill" class="timer-fill"></div></div>
   </div>
 </div>
-     // pertraukėlį.
+     <!--pertraukėlį.-->
 <div id="scr-travel" class="screen hidden">
   <div class="travel-wrap">
     <canvas id="travel-canvas" width="320" height="128" class="travel-canvas"></canvas>
@@ -171,7 +168,7 @@
     <button class="rpg-btn secondary full" id="btn-title">⌂ Titulinis</button>
   </div>
 </div>
-//visualus loaderis
+<!--visualus loaderis-->
 <div id="ov-load" class="overlay hidden">
   <div class="load-box">
     <div class="pixel-bounce"><span></span><span></span><span></span><span></span><span></span></div>
