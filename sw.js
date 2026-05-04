@@ -1,13 +1,6 @@
-// ═══════════════════════════════════════════════════
-// sw.js — Service Worker
-// Leidžia žaisti be interneto ryšio.
-// Kešuoja visus žaidimo failus pirmą kartą.
-// Atnaujinama automatiškai kai keičiasi CACHE_VERSION.
-// ═══════════════════════════════════════════════════
-
 const CACHE_VERSION = 'va-v1';
 
-// Failai kurie kešuojami iš karto (žaidimui reikalingi)
+// reikalingi
 const PRECACHE = [
   './',
   './index.html',
@@ -15,14 +8,11 @@ const PRECACHE = [
   './js/engine.js',
   './icon.svg',
   './manifest.json',
-  // Istorijos — kešuojamos dinamiškai
+  // Istorijos — dinamiškai
 ];
 
-// Failai kurie kešuojami kai pirmą kartą pasiekiami
-// (paveikslėliai, istorijos)
+// Failai saugomi 1 kart
 const DYNAMIC_CACHE = 'va-dynamic-v1';
-
-// ── Instaliacija: iš anksto kešuoti pagrindinius failus ──
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_VERSION)
@@ -31,7 +21,7 @@ self.addEventListener('install', event => {
   );
 });
 
-// ── Aktyvacija: ištrinti senus keš versijas ──
+// Šalinam senas versijas
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
@@ -43,23 +33,22 @@ self.addEventListener('activate', event => {
   );
 });
 
-// ── Fetch: network-first istorijoms, cache-first kitiems ──
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
-  // Istorijų failai — network first (kad atnaujinimai veiktų)
+  // Istorijų failai — naujausi ant viršaus
   if (url.pathname.includes('/stories/')) {
     event.respondWith(networkFirst(event.request));
     return;
   }
 
-  // Paveikslėliai — cache first, fallback į network
+  // Paveikslėliai — vietiniai pirmi, tada online
   if (url.pathname.includes('/img/')) {
     event.respondWith(cacheFirst(event.request));
     return;
   }
 
-  // Visa kita — cache first
+  // Visa kita — vietiniai
   event.respondWith(cacheFirst(event.request));
 });
 
@@ -85,7 +74,6 @@ async function cacheFirst(req) {
     }
     return res;
   } catch {
-    // Grąžinti placeholder jei paveikslėlis nepasiekiamas
     return new Response('', { status: 404 });
   }
 }
