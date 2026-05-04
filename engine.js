@@ -1,16 +1,10 @@
-// ═══════════════════════════════════════════════════
-// engine.js — Visas žaidimo variklis
-// Apjungia: žaidimo logiką + 8-bit garsą + paveikslėlių sluoksniavimą
-// ═══════════════════════════════════════════════════
+// aka mišrainė
+// TODO logika + garsas + paveikslėlių kontrolė
 
-// ───────────────────────────────────────────────────
-// GLOBALUS ISTORIJŲ REGISTRAS
-// Kiekvienas stories/story_N.js prideda savo duomenis čia.
-// engine.js niekada tiesiogiai nežino apie failo pavadinimą.
-// ───────────────────────────────────────────────────
+// Kiekviena story_N.js prideda savo duomenis, reikia config.
 window.STORIES = window.STORIES || {};
 
-// ATRIBUTŲ SĄRAŠAS
+//eksperimentilus sub. attributai, nebaigta
 const ATTRS = {
   DRĄSA:'Drąsa', JĖGA:'Jėga', RYŽTAS:'Ryžtas',
   IŠMINTIS:'Išmintis', GUDRUMAS:'Gudrumas', DĖMESYS:'Dėmesys',
@@ -19,15 +13,15 @@ const ATTRS = {
   GODUMAS:'Godumas', TIKĖJIMAS:'Tikėjimas', INTUICIJA:'Intuicija', KANTRYBĖ:'Kantrybė',
 };
 
-// ARCHETIPAI (2 dažniausi atributai → archetipo vardas)
+// ieškom match kombinacijos pagal attributus, kad su prasti žaidėją, įvertinti pasirinkimuz ir dioti wardą.
 const ARCHETYPES = {
-  DRĄSA_RYŽTAS:'Lakūnas', IŠMINTIS_DĖMESYS:'Tyrinėtojas',
+DRĄSA_RYŽTAS:'Lakūnas', IŠMINTIS_DĖMESYS:'Tyrinėtojas',
   GUDRUMAS_AMBICIJA:'Šešėlis', UŽUOJAUTA_VILTIS:'Globėjas',
   GARBĖ_TIKĖJIMAS:'Saugotojas', BAIMĖ_ABEJINGUMAS:'Klajoklis',
   INTUICIJA_KANTRYBĖ:'Regėtojas',
-};
+};// turėtų būti visiems, gal reik viską nuo nulio
 
-// LORE užuominos (rodomos kelionės fazės metu)
+//Extra intarpai
 const LORE = [
   'Senos gatvės atsimena žingsnius, kurių šeimininkai pamiršo.',
   'Miestas niekada nemiega — tik keičia balsą.',
@@ -41,32 +35,30 @@ const LORE = [
   'Kiekvieną naktį miestas permąsto savo atmintį.',
 ];
 
-// ═══════════════════════════════════════════════════
-// 1. GARSO MODULIS (8-bit Web Audio API)
-//    Nereikia jokių garso failų — visos melodijos generuojamos.
-// ═══════════════════════════════════════════════════
+
+// 8-bit Web Audio API - generuojamas veikiant
 const Sound = (() => {
   let ctx = null, master = null;
   let playing = false, curTheme = null, step = 0, seqT = null;
   let musicOn = localStorage.getItem('music') !== 'false';
   let sfxOn   = localStorage.getItem('sfx')   !== 'false';
 
-  // Natos dažniai
+  // Natų dažniai
   const N = {
     _:0, C3:130.8, D3:146.8, E3:164.8, F3:174.6, G3:196, A3:220, B3:246.9,
     C4:261.6, D4:293.7, E4:329.6, F4:349.2, G4:392, A4:440, B4:493.9,
     C5:523.3, D5:587.3, E5:659.3, G5:784,
   };
 
-  // Temos (melodija + bosas, BPM, bangos forma)
+  // tema, vengiam tik tik, kad nebūtų triukšmo, tik pauzė tik
   const THEMES = {
     title: {
       bpm:72, w:'triangle',
-      mel:['C4','_','E4','_','G4','A4','G4','_','E4','_','D4','_','C4','_','_','_','F4','_','A4','_','C5','_','B4','_','A4','_','G4','_','F4','E4','_','_'],
+    mel:['C4','_','E4','_','G4','A4','G4','_','E4','_','D4','_','C4','_','_','_','F4','_','A4','_','C5','_','B4','_','A4','_','G4','_','F4','E4','_','_'],
       bas:['C3','_','C3','_','G3','_','G3','_','F3','_','F3','_','C3','_','_','_','F3','_','F3','_','C3','_','C3','_','G3','_','G3','_','F3','_','_','_'],
     },
     gameplay: {
-      bpm:144, w:'square',
+     bpm:144, w:'square',
       mel:['G4','G4','_','A4','G4','_','E4','_','G4','G4','_','D5','_','C5','_','_','G4','G4','_','A4','G4','_','D5','_','C5','_','_','_','G3','_','_','_'],
       bas:['G3','_','G3','_','C3','_','C3','_','D3','_','D3','_','G3','_','_','_','G3','_','G3','_','C3','_','C3','_','D3','_','D3','_','G3','_','_','_'],
     },
@@ -81,10 +73,10 @@ const Sound = (() => {
       bas:['C3','_','G3','_','C3','_','_','_','G3','_','G3','_','C3','_','_','_','G3','_','G3','_','C3','_','C3','_','G3','_','G3','_','C3','_','_','_'],
     },
   };
-
+// technika kopijuota
   function init() {
     if (ctx) return;
-    ctx = new (window.AudioContext || window.webkitAudioContext)();
+   ctx = new (window.AudioContext || window.webkitAudioContext)();
     master = ctx.createGain();
     master.gain.value = 0.25;
     master.connect(ctx.destination);
@@ -147,12 +139,11 @@ const Sound = (() => {
     get sfxOn()   { return sfxOn; },
   };
 })();
-
-// ═══════════════════════════════════════════════════
-// 2. PAVEIKSLĖLIŲ MODULIS (Canvas compositor)
-//    Sluoksniuoja fono PNG + atmosferos PNG.
-//    Jei PNG nėra — piešia procedūrinį foną.
-// ═══════════════════════════════════════════════════
+// .png 
+//TODO
+//Lipdyti
+//Veikti ir be d
+//Melstis
 const Images = (() => {
   const cache = {};
 
@@ -166,7 +157,7 @@ const Images = (() => {
     });
   }
 
-  // Procedūrinis fonas kai PNG nėra
+  // Procedūrinis fonas kai png nėra
   function drawProc(ctx, W, H, bg, atmo) {
     const pals = {
       bridge:       ['#2a3a2a','#1a2a3a','#0a1520'],
@@ -183,7 +174,6 @@ const Images = (() => {
     const g = ctx.createLinearGradient(0,0,0,H);
     g.addColorStop(0,c[0]); g.addColorStop(.5,c[1]); g.addColorStop(1,c[2]);
     ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
-    // Žvaigždės naktyje
     if (atmo==='night'||atmo==='dusk') {
       for(let i=0;i<60;i++){
         const x=Math.random()*W, y=Math.random()*H*.5, a=.2+Math.random()*.7;
@@ -191,13 +181,13 @@ const Images = (() => {
         ctx.fillStyle=`rgba(255,245,220,${a})`; ctx.fill();
       }
     }
-    // Atmosferos overlay
+    // Lipdom?
     const ov={night:'rgba(5,5,25,.55)',rain:'rgba(20,30,50,.45)',fog:'rgba(180,185,200,.28)',
                dawn:'rgba(120,60,20,.25)',dusk:'rgba(60,20,10,.38)',snow:'rgba(200,210,230,.2)',crowd:'rgba(10,10,20,.3)'};
     if(ov[atmo]){ctx.fillStyle=ov[atmo]; ctx.fillRect(0,0,W,H);}
   }
 
-  return {
+  return {//pasiėmam
     async render(canvasId, tags) {
       const cv = document.getElementById(canvasId); if(!cv) return;
       const ctx = cv.getContext('2d');
@@ -219,7 +209,7 @@ const Images = (() => {
       }
     },
 
-    // Kelionės animacija (pikselinis avataras eina)
+    // Kelionės animacija
     animateTravel(canvasId, durationMs) {
       const cv = document.getElementById(canvasId); if(!cv) return;
       const ctx = cv.getContext('2d');
@@ -258,14 +248,13 @@ const Images = (() => {
   };
 })();
 
-// ═══════════════════════════════════════════════════
-// 3. SESIJOS KŪRIMAS
-//    Sukuriamas naujas objektas kiekvienai žaidimo sesijai
-// ═══════════════════════════════════════════════════
+
+// Genracija
+
 function newSession(code) {
   const digits = code.split('').map(Number);
   return {
-    code, digits,
+    //code, d
     bitLimit: digits.length * 6,
     activeStories: digits.map(d => d===0 ? Math.ceil(Math.random()*10) : d),
     stats: {
