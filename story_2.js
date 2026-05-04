@@ -1,12 +1,7 @@
-// ═══════════════════════════════════════════════════
-// stories/story_2.js — "Medžio Pasaka"
-// Norėdami pakeisti: ištrinkite ir įkelkite naują.
-// ═══════════════════════════════════════════════════
-
 window.STORIES[2] = {
   id: 2,
   name: 'Medžio Pasaka',
-  description: 'Senas ąžuolas Bernardinų sode saugo miesto paslaptis.',
+  description: 'Senas ąžuolas Sode saugo miesto paslaptis.',
   status: 'active',
   killCount: 0,
   retiredAt: null,
@@ -15,8 +10,8 @@ window.STORIES[2] = {
   bits: {
     1: {
       id: 1, isFinale: false,
-      title: 'Ąžuolas Bernardinų sode',
-      narrative: `Bernardinų sodas naktį atrodo kaip visai kitas pasaulis. Senas ąžuolas prie pat Vilnelės upelės kranto — didžiulis, jo žievė pilna įrėžimų ir randų kaip senas veidas. Ant vienos žemos šakos pakabintas laiškas — eilutėmis surištas su virvele, šiek tiek drėgnas, bet dar nesuplyšęs. Jis šlamša vėjyje kaip kvietimas. Upelė čiurlena apačioje. Tu esi vienintelis žmogus sode.`,
+      title: 'Sode',
+      narrative: `Sodas naktį atrodo kaip visai kitas pasaulis. Senas ąžuolas prie pat Vilnelės upelės kranto — didžiulis, jo žievė pilna įrėžimų ir randų kaip senas veidas. Ant vienos žemos šakos pakabintas laiškas — eilutėmis surištas su virvele, šiek tiek drėgnas, bet dar nesuplyšęs. Jis šlamša vėjyje kaip kvietimas. Upelė čiurlena apačioje. Tu esi vienintelis žmogus sode.`,
       location: 'Bernardinų sodas',
       imageTags: { background: 'park', atmosphere: 'night' },
       choices: [
