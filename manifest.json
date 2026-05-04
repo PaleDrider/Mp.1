@@ -1,7 +1,7 @@
 {
-  "name": "Vilniaus Aidai",
-  "short_name": "V.Aidai",
-  "description": "Interaktyvi Vilniaus miesto legenda",
+  "name": "Interaktyvus pasakojimas apie Žirmūnus",
+  "short_name": "IPAŽ",
+  "description": "Interaktyvus pasakojimas apie Žirmūnus",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0e0e1c",
