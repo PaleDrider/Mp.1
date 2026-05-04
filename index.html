@@ -1,47 +1,34 @@
 <!DOCTYPE html>
-<!-- ═══════════════════════════════════════════════════
-     index.html — ŽAIDĖJO FAILAS "Vilniaus Aidai"
-     Tik šį failą atidaro žaidėjai.
-     Visi ekranai yra čia, rodomi/slepiami JS.
-     ═══════════════════════════════════════════════════ -->
 <html lang="lt">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta name="theme-color" content="#c8a84a">
-  <meta name="description" content="Interaktyvi Vilniaus miesto legenda">
+  <meta name="description" content="Interaktyvus pasakojimas apie Žirmūnus">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Vilniaus Aidai</title>
+  <title>Interaktyvus pasakojimas apie Žirmūnus</title>
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
   <link rel="apple-touch-icon" href="img/ui/icon192.png">
 </head>
 <body>
-
-<!-- ═══════════════════════════════════════════════════
-     TITULINIS EKRANAS
-     ═══════════════════════════════════════════════════ -->
-<div id="scr-title" class="screen active">
+<div id="scr-title" class="screen active">// Pradzia, 
   <div class="title-parchment">
     <div class="title-deco top"></div>
-    <h1 class="game-title">Vilniaus<br>Aidai</h1>
-    <p class="game-sub">Interaktyvi miesto legenda</p>
+    <h1 class="game-title">Interaktyvus <br> pasakojimas <br> apie Žirmūnus</h1>
     <div class="title-deco mid"></div>
     <nav class="title-nav">
-      <button class="rpg-btn" id="btn-play">⚔ Žaisti</button>
-      <button class="rpg-btn secondary" id="btn-options">⚙ Nustatymai</button>
-      <button class="rpg-btn secondary" id="btn-credits">✦ Kreditai</button>
+      <button class="rpg-btn" id="btn-play">Žaisti</button>
+      <button class="rpg-btn secondary" id="btn-options">Nustatymai</button>
+      <button class="rpg-btn secondary" id="btn-credits">Titrai</button>
     </nav>
     <div class="title-deco bot"></div>
   </div>
 </div>
-
-<!-- ═══════════════════════════════════════════════════
-     NUSTATYMŲ LANGAS (overlay)
-     ═══════════════════════════════════════════════════ -->
-<div id="ov-options" class="overlay hidden">
+     
+     <div id="ov-options" class="overlay hidden">//nustatymai
   <div class="ov-box">
     <h2>⚙ Nustatymai</h2>
     <div class="opt-row"><span>Muzika</span>
@@ -52,21 +39,20 @@
       <div class="size-group">
         <button class="sz-btn" data-sz="sm">M</button>
         <button class="sz-btn active" data-sz="md">V</button>
-        <button class="sz-btn" data-sz="lg">D</button>
+     <button class="sz-btn" data-sz="lg">D</button>
       </div>
     </div>
     <button class="rpg-btn secondary full" id="cls-options">Uždaryti</button>
-  </div>
+ </div>
 </div>
-
-<!-- Kreditai overlay -->
-<div id="ov-credits" class="overlay hidden">
+     
+<div id="ov-credits" class="overlay hidden">//
   <div class="ov-box">
     <h2>✦ Kreditai</h2>
     <p>Koncepcija: <em>[Jūsų vardas]</em></p>
     <p>Tekstai: Qwen2.5-32B / Gemini</p>
     <p>Paveikslėliai: Perchance.ai</p>
-    <p>Variklis: HTML · CSS · JS</p>
+       <p>Variklis: HTML · CSS · JS</p>
     <p class="small">Visos vietos realios. Visos istorijos išgalvotos.<br>Vilnius, 2025</p>
     <button class="rpg-btn secondary full" id="cls-credits">Uždaryti</button>
   </div>
@@ -79,7 +65,7 @@
   <div class="parchment-box">
     <div class="deco-div"></div>
     <h2>Kelionės kodas</h2>
-    <p class="hint">Kiekvienas skaitmuo — istorijų skyrius.<br>Min. 3, maks. 10 skaitmenų.</p>
+       <p class="hint">Kiekvienas skaitmuo — istorijų skyrius.<br>Min. 3, maks. 10 skaitmenų.</p>
     <div id="code-digits" class="code-row"></div>
     <button class="rpg-btn secondary" id="btn-reroll">↻ Naujas kodas</button>
     <div class="or-line">— arba įveskite savą —</div>
@@ -88,162 +74,118 @@
     <p id="code-info" class="info-txt"></p>
     <div class="deco-div"></div>
     <button class="rpg-btn full" id="btn-go">⚔ Pradėti kelionę</button>
-    <button class="back-lnk" id="btn-back-code">← Atgal</button>
+       <button class="back-lnk" id="btn-back-code">← Atgal</button>
   </div>
 </div>
-
-<!-- ═══════════════════════════════════════════════════
-     PROFILIO EKRANAS
-     ═══════════════════════════════════════════════════ -->
+     
 <div id="scr-profile" class="screen hidden">
   <div class="parchment-box">
     <div class="deco-div"></div>
     <h2>Jūsų keliautojas</h2>
     <canvas id="av-canvas" width="128" height="128"></canvas>
     <div id="av-hints" class="av-hints"></div>
-    <p id="av-flavor" class="av-flavor"></p>
+  <p id="av-flavor" class="av-flavor"></p>
     <div class="deco-div"></div>
     <button class="rpg-btn full" id="btn-begin">⚔ Pradėti kelionę</button>
   </div>
 </div>
-
-<!-- ═══════════════════════════════════════════════════
-     PAGRINDINIS ŽAIDIMO EKRANAS
-     Atkartoja "Life in Adventure" išdėstymą:
-       [Portretas | Vardas | Resursai | ⚙]
-       [Statistikų taškai]
-       [XP juosta]
-       [Dekoratyvinė linija]
-       [Scenos canvas (fonas)]
-       [Istorijos tekstas — rašomosios mašinėlės efektas]
-       [Laiko juosta + puslapio nr.]
-       [Pasirinkimų sąrašas su % tikimybe]
-       [Apatinė juosta: baigti]
-     ═══════════════════════════════════════════════════ -->
+     //TODO
+     //Portretas | Vardas | Resursai
+     //Laiko juosta + puslapio nr.
+       //Score dėl įtraukimo
+       //Stilių pritaikyti
+       //Istorijos, tekstas, animacija, stiliai
+       //Pasirinkimų sąrašas su % tikimybe
+     //Nutraukti žaidimą betkda.
 <div id="scr-bit" class="screen hidden">
-
-  <!-- TOP HUD: portretas + resursai -->
-  <div class="hud-top">
+  <div class="hud-top">//info juosta
     <div class="hud-left">
-      <!-- Pikselinis portretas -->
       <canvas id="hud-portrait" width="64" height="64" class="portrait"></canvas>
-      <!-- Statistikų taškai (kaip žaidime) -->
       <div class="stat-dots">
         <div class="dots-row" id="dots-red"></div>
-        <div class="dots-row" id="dots-teal"></div>
+      <div class="dots-row" id="dots-teal"></div>
       </div>
     </div>
-    <div class="hud-center">
-      <div class="name-box" id="hud-name">Keliautojas</div>
+<div class="hud-center">
+ <div class="name-box" id="hud-name">Keliautojas</div>
       <div class="story-label" id="hud-story">—</div>
     </div>
     <div class="hud-right">
-      <div class="res-grid">
-        <span class="res"><span class="res-ico">⚔</span><span id="r-might">—</span></span>
-        <span class="res"><span class="res-ico">🧠</span><span id="r-wit">—</span></span>
-        <span class="res"><span class="res-ico">💫</span><span id="r-grace">—</span></span>
-        <span class="res"><span class="res-ico">🍀</span><span id="r-luck">—</span></span>
-        <span class="res"><span class="res-ico">📖</span><span id="r-bits">0</span></span>
-        <span class="res"><span class="res-ico">★</span><span id="r-score">0</span></span>
+  <div class="res-grid">
+        <span class="res"><span class="res-ico">@</span><span id="r-might">—</span></span>
+     <span class="res"><span class="res-ico">#</span><span id="r-wit">—</span></span>
+        <span class="res"><span class="res-ico">€</span><span id="r-grace">—</span></span>
+       <span class="res"><span class="res-ico">%</span><span id="r-luck">—</span></span>
+        <span class="res"><span class="res-ico">^</span><span id="r-bits">0</span></span>
+       <span class="res"><span class="res-ico">&</span><span id="r-score">0</span></span>
       </div>
-    </div>
+</div>
     <button class="gear-btn" id="btn-settings-hud" title="Nustatymai">⚙</button>
   </div>
-
-  <!-- XP / laiko juosta -->
-  <div class="xp-bar-wrap">
+<div class="xp-bar-wrap">
     <div id="xp-bar" class="xp-bar"></div>
   </div>
-
-  <!-- Scenos fono canvas (compositor piešia čia) -->
-  <div class="scene-wrap">
+<div class="scene-wrap">
     <canvas id="scene-canvas" class="scene-canvas"></canvas>
-    <div class="scene-fade"></div>
+<div class="scene-fade"></div>
   </div>
-
-  <!-- Pergamento teksto sritis -->
-  <div class="scroll-area">
-    <div class="deco-div"></div>
-    <!-- Vietovardis -->
-    <div id="bit-loc" class="bit-loc">✦ Vilnius</div>
-    <!-- Pagrindinis naratyvo tekstas -->
+<div class="scroll-area">
+    <div class="deco-div"></div
+    <div id="bit-loc" class="bit-loc">Žirmūnai</div>
+    //teorxktas
     <div id="bit-text" class="bit-text"></div>
-
-    <!-- Rezultato žyma (pvz. ⟨Sėkmė⟩ ) -->
-    <div id="outcome-label" class="outcome-label hidden"></div>
+   <div id="outcome-label" class="outcome-label hidden"></div>
     <div id="outcome-text" class="outcome-text hidden"></div>
-
-    <!-- Puslapio skirtukas su bito numeriu -->
     <div class="page-div">
       <span id="page-num" class="page-num">1</span>
     </div>
-
-    <!-- Pasirinkimų sąrašas -->
-    <div id="choices-wrap" class="choices-list hidden">
-      <!-- Generuojama engine.js -->
+ <div id="choices-wrap" class="choices-list hidden">
     </div>
   </div>
-
-  <!-- Apatinė juosta -->
-  <div class="bottom-bar">
-    <button class="bot-ico" id="btn-end" title="Baigti kelionę">✕ Baigti</button>
-    <div id="timer-label" class="timer-label">Skaitoma...</div>
-    <div id="timer-bar" class="timer-strip"><div id="timer-fill" class="timer-fill"></div></div>
+<div class="bottom-bar">//taisumas
+<button class="bot-ico" id="btn-end" title="Baigti kelionę">✕ Baigti</button>
+ <div id="timer-label" class="timer-label">Skaitoma...</div>
+ <div id="timer-bar" class="timer-strip"><div id="timer-fill" class="timer-fill"></div></div>
   </div>
-
 </div>
-
-<!-- ═══════════════════════════════════════════════════
-     KELIONĖS (PERĖJIMO) EKRANAS
-     ═══════════════════════════════════════════════════ -->
+     // pertraukėlį.
 <div id="scr-travel" class="screen hidden">
   <div class="travel-wrap">
     <canvas id="travel-canvas" width="320" height="128" class="travel-canvas"></canvas>
     <div id="lore-text" class="lore-text"></div>
-    <button class="rpg-btn secondary" id="btn-skip">✕ Baigti kelionę</button>
+<button class="rpg-btn secondary" id="btn-skip">Baigti kelionę</button>
   </div>
 </div>
-
-<!-- ═══════════════════════════════════════════════════
-     EPILOGO EKRANAS
-     ═══════════════════════════════════════════════════ -->
+     
 <div id="scr-epi" class="screen hidden">
   <div class="parchment-box epi-box">
-    <div class="deco-div"></div>
+<div class="deco-div"></div>
     <h2>Kelionė baigta</h2>
     <canvas id="epi-avatar" width="96" height="96" class="epi-av"></canvas>
     <div id="epi-arch" class="epi-arch"></div>
     <div id="epi-stats" class="epi-stats"></div>
     <div class="deco-div"></div>
     <div id="epi-text" class="epi-text"></div>
-    <div id="epi-score" class="epi-score"></div>
+ <div id="epi-score" class="epi-score"></div>
     <button class="rpg-btn full" id="btn-again">↻ Žaisti iš naujo</button>
     <button class="rpg-btn secondary full" id="btn-title">⌂ Titulinis</button>
   </div>
 </div>
-
-<!-- ═══════════════════════════════════════════════════
-     ĮKĖLIMO PERDANGA
-     ═══════════════════════════════════════════════════ -->
+//visualus loaderis
 <div id="ov-load" class="overlay hidden">
   <div class="load-box">
     <div class="pixel-bounce"><span></span><span></span><span></span><span></span><span></span></div>
-    <p id="load-txt">Kraunama...</p>
+<p id="load-txt">Kraunama...</p>//čia
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════
-     JS FAILAI — TVARKA SVARBI:
-     1. stories/story_N.js — istorijų duomenys
-     2. engine.js          — visas variklis
-     ═══════════════════════════════════════════════════ -->
-<script src="stories/story_1.js"></script>
-<script src="stories/story_2.js"></script>
-<script src="engine.js"></script>
+<script src="story_1.js"></script>
+ <script src="story_2.js"></script>//dar tvarkoma, bus 10, apsauga nuo oops.
+<script src="engine.js"></script>//logika
 <script>
-  // Service Worker registracija (offline žaidimui)
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
+     
+  if ('serviceWorker' in navigator) {//localizacija, nepavyksta įgrūsti į engine
+window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js')
         .then(() => console.log('SW: offline režimas aktyvus'))
         .catch(e => console.log('SW nepavyko:', e));
