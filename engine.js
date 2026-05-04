@@ -96,7 +96,7 @@ const Sound = (() => {
     } catch(e) {}
   }
 
-  function tick() {
+function tick() {
     if (!playing || !curTheme) return;
     const th = curTheme, ms = (60 / th.bpm / 4) * 1000, dur = (ms * 0.8) / 1000;
     const mn = th.mel[step % th.mel.length], bn = th.bas[step % th.bas.length];
@@ -134,7 +134,7 @@ const Sound = (() => {
       musicOn = !musicOn; localStorage.setItem('music', musicOn);
       if (!musicOn) this.stop(); return musicOn;
     },
-    toggleSFX() { sfxOn = !sfxOn; localStorage.setItem('sfx', sfxOn); return sfxOn; },
+  toggleSFX() { sfxOn = !sfxOn; localStorage.setItem('sfx', sfxOn); return sfxOn; },
     get musicOn() { return musicOn; },
     get sfxOn()   { return sfxOn; },
   };
@@ -151,7 +151,7 @@ const Images = (() => {
     if (cache[src]) return Promise.resolve(cache[src]);
     return new Promise((ok, err) => {
       const img = new Image();
-      img.onload  = () => { cache[src] = img; ok(img); };
+     img.onload  = () => { cache[src] = img; ok(img); };
       img.onerror = () => err(new Error(src));
       img.src = src;
     });
@@ -171,13 +171,13 @@ const Images = (() => {
       square:       ['#201a18','#181210','#100c08'],
     };
     const c = pals[bg] || pals.street_narrow;
-    const g = ctx.createLinearGradient(0,0,0,H);
+   const g = ctx.createLinearGradient(0,0,0,H);
     g.addColorStop(0,c[0]); g.addColorStop(.5,c[1]); g.addColorStop(1,c[2]);
     ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
     if (atmo==='night'||atmo==='dusk') {
       for(let i=0;i<60;i++){
         const x=Math.random()*W, y=Math.random()*H*.5, a=.2+Math.random()*.7;
-        ctx.beginPath(); ctx.arc(x,y,Math.random()*1.2,0,Math.PI*2);
+       ctx.beginPath(); ctx.arc(x,y,Math.random()*1.2,0,Math.PI*2);
         ctx.fillStyle=`rgba(255,245,220,${a})`; ctx.fill();
       }
     }
@@ -193,7 +193,7 @@ const Images = (() => {
       const ctx = cv.getContext('2d');
       const W = cv.width, H = cv.height;
       const bgPath   = `img/bg/${tags.background||'street_narrow'}.png`;
-      const atmoPath = tags.atmosphere ? `img/atmo/${tags.atmosphere}.png` : null;
+    const atmoPath = tags.atmosphere ? `img/atmo/${tags.atmosphere}.png` : null;
       const bgImg    = await load(bgPath).catch(()=>null);
       const atmoImg  = atmoPath ? await load(atmoPath).catch(()=>null) : null;
 
@@ -204,7 +204,7 @@ const Images = (() => {
         const modes={night:'multiply',rain:'multiply',fog:'screen',dawn:'screen',dusk:'multiply',snow:'screen',crowd:'multiply'};
         ctx.globalCompositeOperation = modes[tags.atmosphere]||'overlay';
         ctx.globalAlpha = 0.6;
-        ctx.drawImage(atmoImg,0,0,W,H);
+       ctx.drawImage(atmoImg,0,0,W,H);
         ctx.globalCompositeOperation='source-over'; ctx.globalAlpha=1;
       }
     },
@@ -231,7 +231,7 @@ const Images = (() => {
         const S=3, ax=W/2-12, ay=H-50;
         this._walkPixel(ctx,ax,ay,S,fr);
         if(el<durationMs) requestAnimationFrame(draw);
-      };
+    };
       requestAnimationFrame(draw);
     },
 
@@ -245,16 +245,14 @@ const Images = (() => {
       else if(fr===1){p(1,4,'#2a4a6a');p(4,4,'#2a4a6a');p(1,5,'#2a4a6a');p(5,5,'#2a4a6a');}
       else{p(2,4,'#2a4a6a');p(5,4,'#2a4a6a');p(3,5,'#2a4a6a');p(5,5,'#2a4a6a');}
     },
-  };
+ };
 })();
-
-
-// Genracija
+// Genracija, pauspaudus žaisti
 
 function newSession(code) {
   const digits = code.split('').map(Number);
   return {
-    //code, d
+    code, digits,
     bitLimit: digits.length * 6,
     activeStories: digits.map(d => d===0 ? Math.ceil(Math.random()*10) : d),
     stats: {
@@ -268,18 +266,15 @@ function newSession(code) {
     score: 0, startTime: Date.now(), suspicious: false,
     currentStory: null, currentBit: null, nextBitId: null,
     _autoCode: null,
-  };
+};
 }
 
-// ═══════════════════════════════════════════════════
-// 4. PAGRINDINIS ŽAIDIMO VARIKLIS
-// ═══════════════════════════════════════════════════
+// Pagliau žaidimo logoka, prieš tai tik duomenys
 const Game = {
   s: null, // aktyvus session objektas
   timers: {},
   _bitStart: 0,
-
-  // ─── Inicializacija ───
+  
   init() {
     this._applySettings();
     this._bind();
@@ -288,17 +283,16 @@ const Game = {
     this._titleAnim();
   },
 
-  // ─── Ekranų keitimas ───
+  
   show(name) {
     document.querySelectorAll('.screen').forEach(el => {
       el.classList.remove('active');
       el.style.display = 'none';
-    });
+  });
     const el = document.getElementById(`scr-${name}`);
     if (el) { el.style.display = 'flex'; requestAnimationFrame(() => el.classList.add('active')); }
   },
 
-  // ─── Mygtukų priskyrimas ───
   _bind() {
     const on = (id, fn) => { const e = document.getElementById(id); if (e) e.addEventListener('click', fn); };
 
@@ -318,7 +312,7 @@ const Game = {
     });
     on('tog-sfx', () => {
       const on = Sound.toggleSFX();
-      const b = document.getElementById('tog-sfx');
+     const b = document.getElementById('tog-sfx');
       if (b) { b.textContent = on ? 'Įjungti' : 'Išjungti'; b.dataset.on = on; }
     });
     document.querySelectorAll('.sz-btn').forEach(b => b.addEventListener('click', () => {
@@ -334,7 +328,7 @@ const Game = {
     on('btn-reroll', () => { Sound.sfx('navigate'); this._genCode(); });
     on('btn-go', () => this._startFromCode());
     on('btn-back-code', () => { Sound.sfx('navigate'); this.show('title'); Sound.play('title'); });
-    const ci = document.getElementById('code-input');
+  const ci = document.getElementById('code-input');
     if (ci) ci.addEventListener('input', () => this._validateCode());
 
     // Profilis
@@ -347,10 +341,9 @@ const Game = {
 
     // Epilogas
     on('btn-again', () => { Sound.sfx('navigate'); this.show('code'); this._initCode(); });
-    on('btn-title', () => { Sound.sfx('navigate'); this.s = null; this.show('title'); Sound.play('title'); });
+   on('btn-title', () => { Sound.sfx('navigate'); this.s = null; this.show('title'); Sound.play('title'); });
   },
 
-  // ─── Kodo ekranas ───
   _initCode() {
     this._genCode();
     const i = document.getElementById('code-input'); if (i) i.value = '';
@@ -362,9 +355,9 @@ const Game = {
     const code = Array.from({length:len}, ()=>Math.floor(Math.random()*10)).join('');
     this._showDigits(code);
     this._setInfo(code);
-    this._autoCode = code;
+   this._autoCode = code;
   },
-  _showDigits(code) {
+_showDigits(code) {
     const el = document.getElementById('code-digits'); if (!el) return;
     el.innerHTML = '';
     code.split('').forEach((d,i) => {
@@ -383,7 +376,7 @@ const Game = {
     const i = document.getElementById('code-input');
     const e = document.getElementById('code-err');
     if (!i || !e) return;
-    const v = i.value.replace(/\D/g,''); i.value = v;
+  const v = i.value.replace(/\D/g,''); i.value = v;
     if (v.length > 0 && v.length < 3) { e.textContent='Min. 3 skaitmenys'; e.classList.remove('hidden'); }
     else e.classList.add('hidden');
     if (v.length >= 3) this._setInfo(v);
@@ -397,18 +390,17 @@ const Game = {
       const e = document.getElementById('code-err');
       if (e) { e.textContent='Per trumpas kodas!'; e.classList.remove('hidden'); }
       return;
-    }
+  }
     Sound.sfx('select');
     this.s = newSession(code);
     this._showProfile();
   },
 
-  // ─── Profilio ekranas ───
   _showProfile() {
     this.show('profile');
     this._drawAvatar('av-canvas', this.s.stats);
     const hints=[], S=this.s.stats;
-    if(S.might>=7) hints.push('Tavo rankos tvirtos kaip akmuo.');
+  if(S.might>=7) hints.push('Tavo rankos tvirtos kaip akmuo.');
     if(S.wit  >=7) hints.push('Tavo akys mato daugiau nei kiti.');
     if(S.grace>=7) hints.push('Tavo žingsniai tylūs ir tikslūs.');
     if(S.luck >=7) hints.push('Likimas tau šypsosi.');
@@ -419,7 +411,6 @@ const Game = {
     if(f) f.textContent=fl[Math.floor(Math.random()*fl.length)];
   },
 
-  // ─── Pikselinis avataras ───
   _drawAvatar(id, stats) {
     const cv=document.getElementById(id); if(!cv) return;
     const ctx=cv.getContext('2d'), S=8;
@@ -439,9 +430,8 @@ const Game = {
     p(2,4,skin);p(6,4,skin);p(2,5,skin);p(6,5,skin);
     if(scroll){p(7,4,'#d4b060');p(7,5,'#d4b060');p(7,6,'#d4b060');}
     p(3,7,cloak);p(5,7,cloak);p(3,8,boots);p(5,8,boots);p(3,9,boots);p(5,9,boots);
-  },
+},
 
-  // ─── Bito įkėlimas ───
   _nextBit() {
     const s = this.s;
     if (s.bitsVisited.length >= s.bitLimit) { this._epilogue('Kelionės laikas baigėsi.'); return; }
@@ -455,7 +445,7 @@ const Game = {
     if (visited.length > 0) {
       const last = story.bits[visited[visited.length-1]];
       nextId = (last && last.choices && last.choices[0]) ? last.choices[0].unlocks : 10;
-    }
+  }
     const bit = story.bits[nextId] || story.bits[10];
     if (!bit) { this._epilogue('Kelio pabaiga.'); return; }
 
@@ -463,8 +453,7 @@ const Game = {
     this._renderBit(story, bit);
   },
 
-  // ─── Bito rodymas ───
-  _renderBit(story, bit) {
+_renderBit(story, bit) {
     this.show('bit');
     const s = this.s;
     this._bitStart = Date.now();
@@ -472,13 +461,14 @@ const Game = {
     // HUD atnaujinimas
     this._updateHUD(story, bit);
 
-    // Scenos canvas (dydis pagal ekraną)
+    //Gal atidirbti paros laiką?
+    
     const scv = document.getElementById('scene-canvas');
     if (scv) { scv.width = scv.offsetWidth || window.innerWidth; scv.height = 180; }
     Images.render('scene-canvas', bit.imageTags || {background:'street_narrow',atmosphere:'night'});
 
     // Vietovardis
-    const loc=document.getElementById('bit-loc'); if(loc) loc.textContent=`✦ ${bit.location||''}`;
+   const loc=document.getElementById('bit-loc'); if(loc) loc.textContent=` ${bit.location||''}`;
 
     // Slėpti pasirinkimus, outcome
     const cw=document.getElementById('choices-wrap'); if(cw) { cw.classList.add('hidden'); cw.innerHTML=''; }
@@ -487,36 +477,33 @@ const Game = {
     // Puslapio numeris
     const pn=document.getElementById('page-num'); if(pn) pn.textContent=s.bitsVisited.length+1;
 
-    // Rašomosios mašinėlės efektas
+    // Teksto animacija
     this._typeText('bit-text', bit.narrative||'', 22);
 
     // Laikmaičio paleidimas
     this._startTimer(bit);
   },
 
-  // ─── HUD atnaujinimas ───
   _updateHUD(story, bit) {
     const s = this.s;
     const nm=document.getElementById('hud-name'); if(nm) nm.textContent='Keliautojas';
     const sl=document.getElementById('hud-story'); if(sl) sl.textContent=story.name;
 
-    // Resursai (rodomi kaip paslėpti — žydrai tik ?)
     ['might','wit','grace','luck'].forEach(k=>{
       const e=document.getElementById(`r-${k}`); if(e) e.textContent='?';
     });
     const rb=document.getElementById('r-bits'); if(rb) rb.textContent=s.bitsVisited.length;
     const rs=document.getElementById('r-score'); if(rs) rs.textContent=s.score;
 
-    // Statistikų taškai (raudoni = might, žalsvai mėlyni = wit)
+    //raudoni = might, žalsvai mėlyni = wit
     this._drawDots('dots-red', s.stats.might, 'red');
     this._drawDots('dots-teal', s.stats.wit, 'teal');
 
-    // HUD portretas
     this._drawAvatar('hud-portrait', s.stats);
 
     // XP juosta (bito progresas)
     const xp=document.getElementById('xp-bar');
-    if(xp) xp.style.width=`${Math.min(100,(s.bitsVisited.length/s.bitLimit)*100)}%`;
+  if(xp) xp.style.width=`${Math.min(100,(s.bitsVisited.length/s.bitLimit)*100)}%`;
   },
 
   _drawDots(id, val, type) {
@@ -524,18 +511,18 @@ const Game = {
     el.innerHTML='';
     for(let i=0;i<5;i++){
       const d=document.createElement('div');
-      d.className=`dot ${i < Math.round(val/2) ? type : 'empty'}`;
+    d.className=`dot ${i < Math.round(val/2) ? type : 'empty'}`;
       el.appendChild(d);
     }
   },
 
-  // ─── 3 fazių laikmaitis ───
+  // Laikas
   _startTimer(bit) {
     this._clearTimers();
     const start = Date.now();
     const TOTAL=60000, UNLOCK=10000;
 
-    this.timers.bar = setInterval(() => {
+  this.timers.bar = setInterval(() => {
       const el=Date.now()-start;
       const pct=Math.max(0,100-(el/TOTAL)*100);
       const tf=document.getElementById('timer-fill');
@@ -548,16 +535,16 @@ const Game = {
     this.timers.auto   = setTimeout(()=>this._autoSelect(bit), TOTAL);
   },
 
-  // ─── Pasirinkimų rodymas ───
+  // Pasirinkimai
   _showChoices(bit) {
     const wrap=document.getElementById('choices-wrap'); if(!wrap) return;
     wrap.innerHTML='';
     bit.choices.forEach((ch,i) => {
       const btn=document.createElement('button');
       btn.className='ch-item'+(ch.statCheck?' skill-chk':'');
-      // Sėkmės tikimybė pagal statistiką
+      // Sėkmės tikimybė
       const pct = this._calcPct(ch);
-      btn.innerHTML=`
+        btn.innerHTML=`
         <div class="ch-main"><span class="ch-ico">✦</span>${ch.text}</div>
         ${pct!==null?`<div class="ch-pct ${ch.statCheck?'skill':''}"><span class="ch-pct-ico">${ch.statCheck?'⚡':'●'}</span>Tikimybė: ${pct}%</div>`:''}
         <div class="ch-attr">${ch.attributes.join(' · ')}</div>`;
@@ -566,8 +553,7 @@ const Game = {
     });
     wrap.classList.remove('hidden');
   },
-
-  // Sėkmės tikimybė (paprasta formulė pagal statistiką ir threshold)
+  
   _calcPct(choice) {
     if (!choice.statCheck) return null;
     const base = 50;
@@ -575,7 +561,6 @@ const Game = {
     return Math.min(95, Math.max(5, base + diff * 8));
   },
 
-  // ─── Pasirinkimas paspaustas ───
   _choose(idx, bit) {
     const s=this.s, ch=bit.choices[idx];
     if (!ch) return;
@@ -598,15 +583,13 @@ const Game = {
         outcome={ok:false, text:ch.statCheck.failText||'Nepavyko. Kelias sunkesnis nei manėte.'};
       }
     }
-
-    // Rodyti outcome jei yra
     if (outcome) {
       const ol=document.getElementById('outcome-label'), ot=document.getElementById('outcome-text');
       if(ol){ ol.textContent=outcome.ok?'⟨Sėkmė⟩':'⟨Nesėkmė⟩'; ol.className='outcome-label'+(outcome.ok?'':' fail'); ol.classList.remove('hidden'); }
       if(ot){ ot.textContent=outcome.text; ot.classList.remove('hidden'); }
     }
 
-    // Žymėti bitą
+    // Zymėti visą
     s.bitsVisited.push({storyId:s.currentStory,bitId:bit.id,isFinale:bit.isFinale});
     if(!s.storyProgress[s.currentStory]) s.storyProgress[s.currentStory]=[];
     s.storyProgress[s.currentStory].push(bit.id);
@@ -617,7 +600,7 @@ const Game = {
     Sound.sfx('select');
     s.nextBitId = nextId;
 
-    // Kelionės fazė
+    // Pertraukos laikas
     const tMs=Math.min(5000,Math.max(1000,Math.round(readMs/12)));
     this._travel(tMs);
   },
@@ -629,8 +612,7 @@ const Game = {
     if(btn) btn.classList.add('auto');
     setTimeout(()=>this._choose(0,bit),300);
   },
-
-  // ─── Kelionės fazė ───
+  
   _travel(ms) {
     this.show('travel');
     Sound.play('travel');
@@ -651,7 +633,7 @@ const Game = {
     this._renderBit(story,bit);
   },
 
-  // ─── Istorijos finalas ───
+  // ─── Istorijos finala
   _onFinale(storyId) {
     Sound.sfx('complete');
     const story=window.STORIES[storyId]; if(!story) return;
@@ -659,7 +641,7 @@ const Game = {
     this.s.score+=500;
     if(story.killCount>=1000){
       story.status='retired';
-      console.log(`Istorija "${story.name}" žymima išimčiai`);
+      console.log(`Istoriją "${story.name}" reikia keisti`);
       this._saveSession();
     }
   },
@@ -667,10 +649,10 @@ const Game = {
   _endEarly() {
     Sound.sfx('endgame');
     this._clearTimers();
-    this._epilogue('Kelionė nutraukta.');
+    this._epilogue('Nutraukta.');
   },
 
-  // ─── Epilogas ───
+  // Epilogas
   _epilogue(reason) {
     this._clearTimers();
     const s=this.s;
@@ -685,7 +667,7 @@ const Game = {
     const arch=this._archetype(s.attrCount);
     const ae=document.getElementById('epi-arch'); if(ae) ae.textContent=arch;
 
-    // Statistikos
+    // Statistika
     const byStory={};
     s.bitsVisited.forEach(v=>{
       const st=window.STORIES[v.storyId];
@@ -710,7 +692,7 @@ const Game = {
       if(stList.length) parts.push(`Tu keliavai per: ${stList.map(x=>x.count+' žingsniai "'+x.name+'"').join(', ')}.`);
       const fin=stList.filter(x=>x.fin>0);
       if(fin.length) parts.push(`Užbaigei: ${fin.map(x=>'"'+x.name+'"').join(', ')}. Miestas tai atsimins.`);
-      else parts.push('Pabaigos šį kartą neradai. Bet Vilnius vis dar laukia.');
+      else parts.push('Pabaigos šį kartą neradai. Bet Žirmūnai vis dar laukia.');
       if(s.suspicious) parts.push('(Tavo žingsniai buvo neįprastai greiti.)');
       et.textContent=parts.join(' ');
     }
@@ -725,7 +707,7 @@ const Game = {
     return ARCHETYPES[k]||ARCHETYPES[`${sorted[1]?.[0]}_${sorted[0]?.[0]}`]||ATTRS[sorted[0]?.[0]]||'Keliautojas';
   },
 
-  // ─── Duomenų išsaugojimas ───
+  // Išsaugojimas
   _saveSession() {
     const s=this.s;
     const d={
@@ -745,7 +727,7 @@ const Game = {
     try { fetch('/api/session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}); } catch(e){}
   },
 
-  // ─── Rašomosios mašinėlės efektas ───
+  // Teksto animacija
   _typeText(id, text, msPer) {
     const el=document.getElementById(id); if(!el) return;
     el.innerHTML='';
@@ -757,13 +739,13 @@ const Game = {
     },msPer);
   },
 
-  // ─── Titulinio fono animacija ───
+  // Titulinio fono animacija
   _titleAnim() {
     const cv=document.getElementById('title-bg-canvas'); if(!cv) return;
     // Tituliniame ekrane nėra canvas, praleidžiame
   },
 
-  // ─── Nustatymų pritaikymas ───
+  // Nustatymų
   _applySettings() {
     const fs=localStorage.getItem('fontSize')||'md';
     document.body.classList.add(`font-${fs}`);
@@ -782,7 +764,7 @@ const Game = {
   _hideOv(id) { const e=document.getElementById(id);if(e)e.classList.add('hidden'); },
 };
 
-// ─── Paleidimas ───
+// Pradzia
 document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click',()=>Sound.init&&Sound.init(),{once:true});
   // Patikrinti ar yra bent viena istorija
