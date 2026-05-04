@@ -1,7 +1,7 @@
 window.STORIES[2] = {
   id: 2,
   name: 'Medžio Pasaka',
-  description: 'Senas ąžuolas Sode saugo miesto paslaptis.',
+  description: 'Senas ąžuolas sode saugo miesto paslaptis.',
   status: 'active',
   killCount: 0,
   retiredAt: null,
@@ -65,7 +65,7 @@ window.STORIES[2] = {
     5: {
       id: 5, isFinale: false,
       title: 'Ieškant rašančiojo',
-      narrative: `Kas pakabino laišką? Šis klausimas veda tave pro Šv. Onos bažnyčios raudoną plytų sieną, pro uždaras parduotuves, pro keletą vėlyvų pėsčiųjų. Niekas neatrodo kaip žmogus kuris kabo laiškus ant ąžuolų vidurnaktį. O gal kaip tik atrodo — niekas neatrodo kaip šis žmogus, nes toks žmogus atrodo labai normaliai. Tu nusprendžiate, kad ieškoti be žinojimo ką ieškai yra kaip vaikščioti užmerktomis akimis.`,
+      narrative: `Kas pakabino laišką? Šis klausimas veda tave pro Bažnyčios raudoną plytų sieną, pro uždaras parduotuves, pro keletą vėlyvų pėsčiųjų. Niekas neatrodo kaip žmogus kuris kabo laiškus ant ąžuolų vidurnaktį. O gal kaip tik atrodo — niekas neatrodo kaip šis žmogus, nes toks žmogus atrodo labai normaliai. Tu nusprendžiate, kad ieškoti be žinojimo ką ieškai yra kaip vaikščioti užmerktomis akimis.`,
       location: 'Šv. Onos bažnyčia',
       imageTags: { background: 'cathedral_sq', atmosphere: 'night' },
       choices: [
@@ -77,9 +77,9 @@ window.STORIES[2] = {
     },
     6: {
       id: 6, isFinale: false,
-      title: 'Rotušės aikštė naktį',
-      narrative: `Rotušės aikštė tuščia ir didelė. Fontanas neveikia — žiemos režimas arba remontas — bet jo baseinas pilnas lapų ir lietaus vandens, atspindintis žvaigždes. Trečias suoliukas nuo fontano — tai sakinys iš laiško, jei jį iššifravote. Ant suoliuko — nieko. Arba beveik nieko. Tarp suoliuko lentų įspraustas mažas popierinis trikampis. Miestas mūsų akivaizdoje pasakoja savo istorijas.`,
-      location: 'Rotušės aikštė',
+      title: 'Aikštė naktį',
+      narrative: `Aikštė tuščia ir didelė. Fontanas neveikia — žiemos režimas arba remontas — bet jo baseinas pilnas lapų ir lietaus vandens, atspindintis žvaigždes. Trečias suoliukas nuo fontano — tai sakinys iš laiško, jei jį iššifravote. Ant suoliuko — nieko. Arba beveik nieko. Tarp suoliuko lentų įspraustas mažas popierinis trikampis. Miestas mūsų akivaizdoje pasakoja savo istorijas.`,
+      location: 'Aikštė',
       imageTags: { background: 'square', atmosphere: 'night' },
       choices: [
         { text: 'Paimti trikampį', attributes: ['DRĄSA','GUDRUMAS'], unlocks: 9, statCheck: null },
@@ -91,9 +91,9 @@ window.STORIES[2] = {
     },
     7: {
       id: 7, isFinale: false,
-      title: 'Subačiaus gatvė',
-      narrative: `Subačiaus gatvė čia šiek tiek kyla į kalną, ir iš viršaus matosi miesto šviesos. Naktinis Vilnius iš čia atrodo kaip žemėlapis nubrėžtas šviesos piešikliu. Kažkur ten — Bernardinų sodas, ąžuolas, neišspręsta mįslė. Kažkur ten — Rotušės aikštė, suoliukas, popierinis trikampis arba jo nebuvimas. Gatvių tinklas atrodo kaip medžio šakos. Tu sustoji ir galvoji, kad miestas ir medis yra vienas ir tas pats dalykas.`,
-      location: 'Subačiaus gatvė',
+      title: 'Gatvė',
+      narrative: `Gatvė čia šiek tiek kyla į kalną, ir iš viršaus matosi miesto šviesos. Naktinis Vilnius iš čia atrodo kaip žemėlapis nubrėžtas šviesos piešikliu. Kažkur ten — Bernardinų sodas, ąžuolas, neišspręsta mįslė. Kažkur ten — Rotušės aikštė, suoliukas, popierinis trikampis arba jo nebuvimas. Gatvių tinklas atrodo kaip medžio šakos. Tu sustoji ir galvoji, kad miestas ir medis yra vienas ir tas pats dalykas.`,
+      location: 'Gatvė',
       imageTags: { background: 'street_narrow', atmosphere: 'dusk' },
       choices: [
         { text: 'Grįžti prie ąžuolo su nauju supratimu', attributes: ['INTUICIJA','VILTIS'], unlocks: 9, statCheck: null },
@@ -104,8 +104,8 @@ window.STORIES[2] = {
     },
     8: {
       id: 8, isFinale: false,
-      title: 'Užupio kiemas',
-      narrative: `Užupis naktį — kaip atskiras miestas. Seni kiemai su menininkų plakatais, varteliai kurie lyg ir atidaryti bet lyg ir ne. Kažkuriame lange šviesa — kažkas dirba naktį. Kažkurio kiemo fontane — maža varlė skulptūra, garsi Užupio konstitucija. Tu sustoji prie sienos su ja ir skaitai vieną punktą: „Kiekvienas turi teisę neturėti teisių." Šis miestas sugeba būti rimtas ir žaismingas vienu metu.`,
+      title: 'Kiemas',
+      narrative: `Seni kiemai su menininkų plakatais, varteliai kurie lyg ir atidaryti bet lyg ir ne. Kažkuriame lange šviesa — kažkas dirba naktį. Kažkurio kiemo fontane — maža varlė skulptūra, garsi Užupio konstitucija. Tu sustoji prie sienos su ja ir skaitai vieną punktą: „Kiekvienas turi teisę neturėti teisių." Šis miestas sugeba būti rimtas ir žaismingas vienu metu.`,
       location: 'Užupis',
       imageTags: { background: 'courtyard', atmosphere: 'night' },
       choices: [
