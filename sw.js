@@ -4,8 +4,8 @@ const CACHE_VERSION = 'va-v1';
 const PRECACHE = [
   './',
   './index.html',
-  './css/style.css',
-  './js/engine.js',
+  './style.css',
+  './engine.js',
   './icon.svg',
   './manifest.json',
   // Istorijos — dinamiškai
