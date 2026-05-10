@@ -1,0 +1,546 @@
+/* ═══════════════════════════════════════════════════
+   style.css — Vilniaus Aidai RPG stilius
+   Šviesi pergamento tema (kaip "Life in Adventure")
+   ═══════════════════════════════════════════════════ */
+
+:root {
+  /* Pergamento spalvos */
+  --parch:     #c8b898;
+  --parch-lt:  #d8c8a8;
+  --parch-dk:  #a89878;
+  --parch-bg:  #b8a888;
+
+  /* Tekstas */
+  --ink:       #2a1f0f;
+  --ink-2:     #5a4830;
+  --ink-3:     #8a7858;
+
+  /* Akcento spalvos */
+  --gold:      #c8941a;
+  --gold-lt:   #e8b840;
+  --red-dot:   #c83030;
+  --teal-dot:  #207870;
+  --green-ok:  #286828;
+  --blue-sk:   #1848a0;
+
+  /* Šrifto dydžiai */
+  --fs: 16px;
+}
+body.font-sm { --fs: 13px; }
+body.font-md { --fs: 16px; }
+body.font-lg { --fs: 20px; }
+
+/* ── Bazė ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 100%; height: 100%; overflow: hidden;
+  background: var(--parch-bg);
+  color: var(--ink);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: var(--fs);
+}
+button { font-family: inherit; cursor: pointer; }
+canvas { display: block; }
+
+/* ── Ekranai ── */
+.screen {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.35s ease;
+  background: var(--parch-bg);
+  overflow-y: auto;
+}
+.screen.active  { opacity: 1; pointer-events: all; }
+.screen.hidden  { display: none !important; }
+
+/* ── Perdangos ── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(30,20,10,0.72);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 600;
+}
+.overlay.hidden { display: none; }
+.ov-box {
+  background: var(--parch-lt);
+  border: 2px solid var(--gold);
+  padding: 2rem 1.8rem; max-width: 340px; width: 92%;
+  text-align: center;
+}
+.ov-box h2 { color: var(--gold); font-size: 1.2em; margin-bottom: 1.4rem; }
+.ov-box p  { color: var(--ink-2); margin: .4rem 0; font-size: .9em; line-height: 1.7; }
+.ov-box em { color: var(--ink); font-style: normal; }
+.ov-box .small { font-size: .78em; color: var(--ink-3); margin-top: .8rem; }
+
+/* ── Nustatymų eilutės ── */
+.opt-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: .7rem 0; border-bottom: 1px solid var(--parch-dk);
+  color: var(--ink-2); font-size: .9em;
+}
+.tog-btn {
+  background: var(--parch); border: 1px solid var(--parch-dk);
+  color: var(--gold); font-family: inherit; font-size: .78em;
+  padding: .25rem .8rem; cursor: pointer;
+}
+.tog-btn[data-on="false"] { color: var(--ink-3); }
+.size-group { display: flex; gap: .35rem; }
+.sz-btn {
+  background: var(--parch); border: 1px solid var(--parch-dk);
+  color: var(--ink-2); font-family: inherit;
+  width: 30px; height: 30px; cursor: pointer;
+}
+.sz-btn.active { border-color: var(--gold); color: var(--gold); background: var(--parch-lt); }
+
+/* ── RPG mygtukai ── */
+.rpg-btn {
+  display: inline-block;
+  background: var(--gold);
+  border: 2px solid #8a6010;
+  color: #fff;
+  font-family: Georgia, serif; font-size: 1em;
+  padding: .65rem 1.8rem;
+  cursor: pointer;
+  letter-spacing: .05em;
+  transition: background .15s;
+  margin-top: .6rem;
+}
+.rpg-btn:hover { background: var(--gold-lt); }
+.rpg-btn.secondary {
+  background: var(--parch);
+  border-color: var(--parch-dk);
+  color: var(--ink-2);
+}
+.rpg-btn.secondary:hover { background: var(--parch-lt); color: var(--ink); }
+.rpg-btn.full { width: 100%; display: block; text-align: center; }
+.back-lnk {
+  background: none; border: none;
+  color: var(--ink-3); font-family: inherit; font-size: .84em;
+  margin-top: .6rem; cursor: pointer;
+  display: block; width: 100%; text-align: center;
+}
+.back-lnk:hover { color: var(--ink); }
+
+/* ── Dekoratyviniai skirtuvai (CSS ornamentas) ── */
+.deco-div {
+  width: 100%; height: 20px; margin: .8rem 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='20'%3E%3Cline x1='0' y1='10' x2='70' y2='10' stroke='%23a89878' stroke-width='1'/%3E%3Ccircle cx='100' cy='10' r='5' fill='none' stroke='%23c8941a' stroke-width='1.5'/%3E%3Cline x1='130' y1='10' x2='200' y2='10' stroke='%23a89878' stroke-width='1'/%3E%3Ccircle cx='80' cy='10' r='2' fill='%23c8941a'/%3E%3Ccircle cx='120' cy='10' r='2' fill='%23c8941a'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: center;
+}
+
+/* ── Titulinis ekranas ── */
+.title-parchment {
+  background: var(--parch-lt);
+  border: 3px solid var(--gold);
+  padding: 2.5rem 2rem;
+  max-width: 380px; width: 92%;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,.25);
+}
+.game-title {
+  font-size: clamp(2rem, 10vw, 3.5rem);
+  color: var(--gold);
+  line-height: 1.1;
+  margin: .5rem 0;
+  text-shadow: 1px 1px 0 #8a6010;
+}
+.game-sub {
+  color: var(--ink-2); font-size: .8em;
+  letter-spacing: .25em; margin-bottom: 1rem;
+}
+.title-nav { display: flex; flex-direction: column; gap: .4rem; }
+.title-deco.top, .title-deco.bot { margin: .6rem 0; }
+.title-deco.mid { margin: 1rem 0 .5rem; }
+
+/* ── Pergamento dėžutė ── */
+.parchment-box {
+  background: var(--parch-lt);
+  border: 2px solid var(--gold);
+  padding: 1.8rem 1.6rem;
+  max-width: 460px; width: 94%;
+  text-align: center;
+  box-shadow: 0 3px 15px rgba(0,0,0,.2);
+}
+.parchment-box h2 {
+  color: var(--gold); font-size: 1.2em;
+  margin-bottom: 1rem;
+}
+.hint { color: var(--ink-2); font-size: .85em; line-height: 1.7; margin-bottom: 1rem; }
+
+/* ── Kodo ekranas ── */
+.code-row {
+  display: flex; gap: 5px; justify-content: center;
+  flex-wrap: wrap; margin-bottom: .8rem; min-height: 52px;
+}
+.c-digit {
+  background: var(--parch); border: 2px solid var(--gold);
+  color: var(--gold); font-size: 1.4em;
+  width: 44px; height: 50px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Courier New', monospace;
+}
+.or-line { color: var(--ink-3); font-size: .78em; margin: .8rem 0; }
+input[type="text"] {
+  background: var(--parch); border: 2px solid var(--parch-dk);
+  color: var(--ink); font-family: 'Courier New', monospace;
+  font-size: 1.3em; text-align: center; letter-spacing: .4em;
+  padding: .6rem; width: 100%; outline: none;
+}
+input[type="text"]:focus { border-color: var(--gold); }
+.err-txt { color: var(--red-dot); font-size: .8em; margin: .3rem 0; }
+.info-txt { color: var(--gold); font-size: .8em; margin: .4rem 0; min-height: 1.2em; }
+
+/* ── Profilio ekranas ── */
+#av-canvas, #epi-avatar {
+  image-rendering: pixelated;
+  border: 2px solid var(--gold);
+  margin: .8rem auto;
+}
+#av-canvas { width: 128px; height: 128px; }
+#epi-avatar { width: 96px; height: 96px; }
+.av-hints { color: var(--ink-2); font-size: .84em; line-height: 2; }
+.av-flavor { color: var(--ink-3); font-size: .82em; font-style: italic; margin: .6rem 0; }
+
+/* ═══════════════════════════════════════════════════
+   PAGRINDINIS ŽAIDIMO EKRANAS
+   ═══════════════════════════════════════════════════ */
+#scr-bit {
+  justify-content: flex-start;
+  overflow-y: auto;
+  padding-bottom: 60px; /* vietos apatinei juostai */
+}
+
+/* ── HUD viršus ── */
+.hud-top {
+  width: 100%; max-width: 700px;
+  display: flex; align-items: center; gap: .5rem;
+  padding: .4rem .6rem;
+  background: var(--parch-dk);
+  border-bottom: 2px solid var(--gold);
+  position: sticky; top: 0; z-index: 10;
+  flex-shrink: 0;
+}
+.hud-left { display: flex; align-items: center; gap: .4rem; flex-shrink: 0; }
+.portrait {
+  width: 64px; height: 64px;
+  image-rendering: pixelated;
+  border: 2px solid var(--gold);
+  flex-shrink: 0;
+}
+.stat-dots { display: flex; flex-direction: column; gap: 3px; }
+.dots-row { display: flex; gap: 3px; }
+/* Statistikų taškai — piešiami JS */
+.dot {
+  width: 10px; height: 10px;
+  border-radius: 2px;
+  border: 1px solid rgba(0,0,0,.3);
+}
+.dot.red  { background: var(--red-dot); }
+.dot.teal { background: var(--teal-dot); }
+.dot.empty { background: rgba(0,0,0,.15); }
+
+.hud-center { flex: 1; min-width: 0; text-align: center; }
+.name-box {
+  background: var(--parch-lt);
+  border: 1px solid var(--parch-dk);
+  padding: .2rem .6rem;
+  font-size: .9em; color: var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.story-label { font-size: .7em; color: var(--ink-3); margin-top: .15rem; }
+
+.hud-right { flex-shrink: 0; }
+.res-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+}
+.res {
+  background: var(--parch);
+  border: 1px solid var(--parch-dk);
+  font-size: .72em; padding: .15rem .3rem;
+  display: flex; align-items: center; gap: 2px;
+  white-space: nowrap;
+}
+.res-ico { font-size: .9em; }
+
+.gear-btn {
+  background: none; border: none;
+  color: var(--ink-3); font-size: 1.1em;
+  padding: .2rem; flex-shrink: 0; cursor: pointer;
+}
+.gear-btn:hover { color: var(--gold); }
+
+/* ── XP juosta ── */
+.xp-bar-wrap {
+  width: 100%; max-width: 700px;
+  height: 6px;
+  background: var(--parch-dk);
+  flex-shrink: 0;
+}
+.xp-bar {
+  height: 100%;
+  background: linear-gradient(to right, var(--gold), var(--gold-lt));
+  width: 100%;
+  transition: width 1s linear;
+}
+
+/* ── Scenos canvas ── */
+.scene-wrap {
+  width: 100%; max-width: 700px;
+  height: 180px; position: relative; flex-shrink: 0;
+  overflow: hidden;
+}
+.scene-canvas {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+/* Gradientas: scena pereina į pergamentą */
+.scene-fade {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom,
+    transparent 0%, transparent 50%,
+    var(--parch-lt) 100%
+  );
+}
+
+/* ── Teksto sritinė pergamenta ── */
+.scroll-area {
+  width: 100%; max-width: 700px;
+  background: var(--parch-lt);
+  padding: .5rem 1.2rem 1rem;
+  flex: 1;
+}
+
+.bit-loc {
+  font-size: .72em; color: var(--gold);
+  letter-spacing: .22em; text-transform: uppercase;
+  margin-bottom: .6rem;
+}
+
+/* Pagrindinis tekstas — serif, tamsus */
+.bit-text {
+  font-size: var(--fs);
+  color: var(--ink);
+  line-height: 1.85;
+  min-height: 60px;
+  text-align: justify;
+}
+
+/* Rašomosios mašinėlės kursorius */
+.cursor {
+  display: inline-block; width: 2px; height: 1em;
+  background: var(--ink); margin-left: 1px;
+  animation: blink .7s step-end infinite;
+  vertical-align: text-bottom;
+}
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+/* Rezultato žyma (⟨Sėkmė⟩ / ⟨Nesėkmė⟩) */
+.outcome-label {
+  font-size: .95em; font-style: italic;
+  margin: .8rem 0 .3rem;
+  color: var(--green-ok);
+}
+.outcome-label.fail { color: var(--red-dot); }
+.outcome-text {
+  font-size: var(--fs); color: var(--ink-2);
+  line-height: 1.8; margin-bottom: .5rem;
+  text-align: justify;
+}
+.hidden { display: none !important; }
+/* Ekranams !important nekliudo nes show() naudoja inline stilius */
+.screen.hidden { display: none; }
+.overlay.hidden { display: none; }
+
+/* ── Puslapio skirtukas — trijų linijų "blueprint" stilius ──
+   Atrodo taip:
+         ─────────
+   ───── 5 ───────
+         ─────────
+   ── */
+.page-div {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  align-items: center;
+  margin: 1rem 0;
+  gap: 0;
+}
+/* Viršutinė linija — trumpa, dešinėje */
+.page-div::before {
+  content: '';
+  display: block;
+  height: 1px;
+  background: var(--parch-dk);
+  margin-left: 35%;   /* prasideda viduryje */
+  margin-bottom: 3px;
+}
+/* Apatinė linija — trumpa, dešinėje */
+.page-div::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: var(--parch-dk);
+  margin-left: 35%;   /* prasideda viduryje */
+  margin-top: 3px;
+}
+/* Vidurinė eilutė: pilna linija + etiketė + linija */
+.page-num {
+  display: flex; align-items: center; gap: .5rem;
+  color: var(--ink-3); font-size: .75em;
+  white-space: nowrap;
+}
+.page-num::before, .page-num::after {
+  content: ''; flex: 1; height: 1px;
+  background: var(--parch-dk);
+}
+.page-num::before { min-width: 2rem; }
+.page-num::after  { min-width: 2rem; }
+
+/* ── Pasirinkimų sąrašas ── */
+.choices-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: .5rem;
+}
+/* Kiekvienas pasirinkimas — kaip žaidime: ✦ Tekstas + % */
+.ch-item {
+  display: flex; flex-direction: column;
+  padding: .5rem .6rem;
+  background: transparent;
+  border: none; border-left: 3px solid transparent;
+  text-align: left; cursor: pointer; width: 100%;
+  font-family: Georgia, serif;
+  transition: border-color .15s, background .15s;
+}
+.ch-item:hover {
+  background: rgba(200,148,26,.08);
+  border-left-color: var(--gold);
+}
+.ch-main {
+  font-size: var(--fs); color: var(--ink);
+  display: flex; align-items: flex-start; gap: .45rem;
+}
+.ch-ico { color: var(--gold); flex-shrink: 0; }
+/* Sėkmės tikimybė (kaip "Success Chance: 37,5%") */
+.ch-pct {
+  font-size: .78em; color: var(--ink-3);
+  margin-top: .15rem; margin-left: 1.3rem;
+  display: flex; align-items: center; gap: .3rem;
+}
+.ch-pct-ico { font-size: .85em; }
+.ch-pct.skill { color: var(--blue-sk); }
+.ch-attr {
+  font-size: .72em; color: var(--ink-3);
+  margin-left: 1.3rem; margin-top: .1rem;
+  font-style: italic;
+}
+/* Įgūdžių patikrinimas — žydras akcentas */
+.ch-item.skill-chk { border-left-color: rgba(24,72,160,.3); }
+.ch-item.skill-chk .ch-main { color: var(--blue-sk); }
+/* Auto-pasirinktas (bauda) */
+.ch-item.auto { opacity: .45; border-left-color: var(--red-dot); }
+
+/* ── Apatinė juosta ── */
+.bottom-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  max-width: 700px; margin: 0 auto;
+  background: var(--parch-dk);
+  border-top: 2px solid var(--gold);
+  display: flex; align-items: center; gap: .6rem;
+  padding: .35rem .7rem;
+  z-index: 10;
+}
+.bot-ico {
+  background: none; border: 1px solid rgba(200,60,60,.4);
+  color: rgba(200,60,60,.7); font-family: inherit; font-size: .78em;
+  padding: .2rem .6rem; cursor: pointer; flex-shrink: 0;
+  transition: all .15s;
+}
+.bot-ico:hover { border-color: var(--red-dot); color: var(--red-dot); }
+.timer-label { font-size: .72em; color: var(--ink-3); flex-shrink: 0; white-space: nowrap; }
+.timer-strip { flex: 1; height: 6px; background: rgba(0,0,0,.15); }
+.timer-fill {
+  height: 100%; background: var(--gold);
+  transition: width .9s linear, background .4s;
+}
+.timer-fill.warn   { background: #d06010; }
+.timer-fill.danger { background: var(--red-dot); animation: tDanger .5s step-end infinite; }
+@keyframes tDanger { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+
+/* ═══════════════════════════════════════════════════
+   KELIONĖS EKRANAS
+   ═══════════════════════════════════════════════════ */
+#scr-travel { background: var(--parch-bg); }
+.travel-wrap {
+  text-align: center; padding: 2rem 1.5rem;
+  display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+}
+.travel-canvas {
+  image-rendering: pixelated;
+  border-bottom: 2px solid var(--gold);
+  width: 320px; height: 128px; max-width: 90vw;
+}
+.lore-text {
+  max-width: 380px; color: var(--ink-2);
+  font-size: .9em; font-style: italic; line-height: 1.9;
+}
+
+/* ═══════════════════════════════════════════════════
+   EPILOGO EKRANAS
+   ═══════════════════════════════════════════════════ */
+.epi-box { max-height: 92vh; overflow-y: auto; text-align: left; }
+.epi-av  { display: block; margin: 0 auto .8rem; image-rendering: pixelated; border: 2px solid var(--gold); }
+.epi-arch { text-align: center; font-size: 1.1em; color: var(--gold); margin-bottom: .8rem; }
+.epi-stats {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: .5rem; margin-bottom: 1rem;
+}
+.epi-stat {
+  background: var(--parch); border: 1px solid var(--parch-dk);
+  padding: .45rem .6rem;
+}
+.epi-stat .lbl { font-size: .7em; color: var(--ink-3); display: block; }
+.epi-stat .val { color: var(--gold); display: block; margin-top: .15rem; }
+.epi-text {
+  color: var(--ink-2); font-size: .9em; line-height: 1.9;
+  font-style: italic; border-left: 3px solid var(--gold);
+  padding-left: .8rem; margin-bottom: 1rem;
+}
+.epi-score {
+  text-align: center; font-size: 2em; color: var(--gold);
+  letter-spacing: .2em; margin-bottom: 1rem;
+}
+
+/* ═══════════════════════════════════════════════════
+   ĮKĖLIMO ANIMACIJA
+   ═══════════════════════════════════════════════════ */
+.load-box { text-align: center; }
+.pixel-bounce {
+  display: flex; gap: 5px; justify-content: center;
+  align-items: flex-end; height: 28px; margin-bottom: .8rem;
+}
+.pixel-bounce span {
+  width: 7px; background: var(--gold);
+  animation: pb .65s ease-in-out infinite;
+}
+.pixel-bounce span:nth-child(1){height:8px;  animation-delay:0s;}
+.pixel-bounce span:nth-child(2){height:13px; animation-delay:.1s;}
+.pixel-bounce span:nth-child(3){height:20px; animation-delay:.2s;}
+.pixel-bounce span:nth-child(4){height:13px; animation-delay:.3s;}
+.pixel-bounce span:nth-child(5){height:8px;  animation-delay:.4s;}
+@keyframes pb{0%,100%{transform:scaleY(.4);opacity:.5;}50%{transform:scaleY(1.2);opacity:1;}}
+#load-txt { color: var(--parch-lt); font-size: .82em; letter-spacing: .2em; }
+
+/* ═══════════════════════════════════════════════════
+   MOBILUSIS
+   ═══════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .hud-top { gap: .3rem; padding: .3rem .4rem; }
+  .portrait { width: 52px; height: 52px; }
+  .res-grid { grid-template-columns: 1fr 1fr; }
+  .scene-wrap { height: 130px; }
+  .scroll-area { padding: .4rem .8rem .8rem; }
+  .epi-stats { grid-template-columns: 1fr; }
+}
