@@ -1,3 +1,5 @@
+window.STORIES = window.STORIES || {};
+
 window.STORIES[2] = {
   id: 2,
   name: 'Medžio Pasaka',
