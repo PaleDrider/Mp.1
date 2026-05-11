@@ -1,4 +1,4 @@
-
+window.STORIES = window.STORIES || {};
 
 window.STORIES[1] = {
   id: 1,
