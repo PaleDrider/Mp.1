@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Žirmūnų Aidai</title>
+<title>Interaktyvus pasakojimas apie Žirmūnus</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -184,13 +184,12 @@ button{font-family:inherit;cursor:pointer}
 <div id="st" class="screen on">
   <div style="text-align:center">
     <div class="deco"><span>✦</span></div>
-    <h1 class="gtitle">Žirmūnų<br>Aidai</h1>
-    <p class="gsub">Interaktyvi miesto legenda</p>
+    <h1 class="gtitle">Interaktyvus<br>pasakojimas<br>apie Žirmūnus</h1>
     <div class="deco"><span>✦</span></div>
     <nav class="tnav">
-      <button class="btn f" id="bplay">⚔ Žaisti</button>
-      <button class="btn s f" id="bopts">⚙ Nustatymai</button>
-      <button class="btn s f" id="bcred">✦ Titrai</button>
+      <button class="btn f" id="bplay">Žaisti</button>
+      <button class="btn s f" id="bopts">Nustatymai</button>
+      <button class="btn s f" id="bcred">Titrai</button>
     </nav>
     <p id="tdbg" style="color:var(--red);font-size:.75em;margin-top:.7rem"></p>
   </div>
@@ -231,7 +230,7 @@ button{font-family:inherit;cursor:pointer}
   <div class="obox">
     <h2>✦ Titrai</h2>
     <p>Sugalvojo ir atliko <em>Rapolas Bikulčius</em></p>
-    <p>Tekstai: Qwen2.5-32B / Gemini</p><p>Paveikslėliai: Perchance.ai</p>
+    <p>Tekstai: Qwen2.5-3B / Gemini</p><p>Paveikslėliai:</p>
     <p>Variklis: HTML · CSS · JS</p>
     <p style="color:var(--ink3);font-size:.78em;margin-top:.7rem">Visos vietos realios.<br>Visos istorijos išgalvotos.<br>Vilnius, 2025</p>
     <button class="btn s f" onclick="co('ov-cred')">Uždaryti</button>
@@ -252,7 +251,7 @@ button{font-family:inherit;cursor:pointer}
     <div style="color:var(--ink3);font-size:.78em;margin:.5rem 0">— arba įveskite savą (min 3 sk.) —</div>
     <input id="cin" class="cinput" type="text" inputmode="numeric" maxlength="10" placeholder="pvz: 1122">
     <p id="cerr" style="color:var(--red);font-size:.8em;min-height:1.1em"></p>
-    <button class="btn f" id="bdep" style="margin-top:.5rem">🚂 Išvykti</button>
+    <button class="btn f" id="bdep" style="margin-top:.5rem">Išvykti</button>
     <button class="btn s f" onclick="S2('st')">← Atgal</button>
   </div>
 </div>
@@ -332,15 +331,15 @@ button{font-family:inherit;cursor:pointer}
 </div>
 
 <script>
-// ── STORIES ──────────────────────────────────────────────
+//STORIES
 window.STORIES = window.STORIES || {};
 window.STORIES[1] = {
   id:1, name:'Akmens Pasaka', killCount:0,
   epilogueFull:`Supranti. Tas akmuo buvo ženklas — ne tau asmeniškai, bet per tave. Vilnius turi savo atmintį, savo kalbą, kurios nereikia mokytis iš knygų — ją reikia pajusti, palietus, praeinant, stabtelint netikėtai. Ir tu, nors trumpam, ją pajutai. Tas momentas Pilies gatvėje buvo tikras. Vilnius tęsia savo gyvenimą. Jis atsimenęs daug žmonių su klausimais. Tu — dar vienas iš jų. Ir tai daugiau nei nieko.`,
   epiloguePartial:`Tu palietei Akmens Pasakos kraštą, bet jos širdies nepasiekei. Kažkur Pilies gatvėje tas akmuo vis dar guli — laukia kito, kuris stabtelės ilgiau. Vilnius nesiskundžia: jis laiko visas istorijas vienodai kantriai.`,
   bits:{
-    1:{id:1,isFinale:false,narrative:`Pilies gatvė šią naktį neįprastai tuščia. Grindinio akmenys blizga po vakarykščio lietaus, kiekvienas atspindintis žibinto šviesą kaip mažas veidrodis. Ties sena siena, kur gatvė lenkiasi link Katedros aikštės, kažkas padėjo neįprastą akmenį — pernelyg lygiai aptašytą, pernelyg taisyklingą, kad būtų atsitiktinis. Žibinto šviesa krenta ant jo kaip rodo pirštą. Tu sustoji. Visas miestas, rodos, sulaiko kvapą kartu su tavimi.`,location:'Pilies gatvė',imageTags:{background:'street_narrow',atmosphere:'night'},choices:[{text:'Paimti akmenį į rankas',attributes:['DRĄSA','AMBICIJA']},{text:'Apeiti ir eiti toliau',attributes:['ABEJINGUMAS','KANTRYBĖ']},{text:'Atsiklaupti ir apžiūrėti iš arti',attributes:['DĖMESYS','IŠMINTIS']},{text:'Paklausti einančio pro šalį žmogaus',attributes:['UŽUOJAUTA','GUDRUMAS'],statCheck:{stat:'wit',threshold:7,successText:'Praeivio žodžiai atidaro duris, kurių nepastebėtumėte vienas.'}}]},
-    2:{id:2,isFinale:false,narrative:`Katedros aikštė atsiveria prieš tave — didžiulė ir tuščia, tik bažnyčios bokštai kerta naktinį dangų. Aikštės akmenimis atsimuša tavo žingsniai kaip aidas iš praeities. Kažkur toli šuo suloja, ir garsas nutolsta per senamiesčio labirintą. Tu sedi ant šaltų laiptų ir klausaisi kaip miestas kvepia po lietaus — žemė, akmuo, vėjas neša medžių lapus iš Bernardinų sodo.`,location:'Katedros aikštė',imageTags:{background:'cathedral_sq',atmosphere:'night'},choices:[{text:'Grįžti prie akmens',attributes:['INTUICIJA','DRĄSA']},{text:'Sėdėti ir klausytis miesto',attributes:['KANTRYBĖ','TIKĖJIMAS']},{text:'Eiti link Gedimino bokšto',attributes:['AMBICIJA','RYŽTAS']},{text:'Rašyti ką nors kreida ant šaligatvio',attributes:['VILTIS','GUDRUMAS']}]},
+    1:{id:1,isFinale:false,narrative:`Žirmūnų gatvė šią naktį neįprastai tuščia. Grindinio akmenys blizga po vakarykščio lietaus, kiekvienas atspindintis žibinto šviesą kaip mažas veidrodis. Ties sena siena, kur gatvė lenkiasi link Katedros aikštės, kažkas padėjo neįprastą akmenį — pernelyg lygiai aptašytą, pernelyg taisyklingą, kad būtų atsitiktinis. Žibinto šviesa krenta ant jo kaip rodo pirštą. Tu sustoji. Visas miestas, rodos, sulaiko kvapą kartu su tavimi.`,location:'',imageTags:{background:'street_narrow',atmosphere:'night'},choices:[{text:'Paimti akmenį į rankas',attributes:['DRĄSA','AMBICIJA']},{text:'Apeiti ir eiti toliau',attributes:['ABEJINGUMAS','KANTRYBĖ']},{text:'Atsiklaupti ir apžiūrėti iš arti',attributes:['DĖMESYS','IŠMINTIS']},{text:'Paklausti einančio pro šalį žmogaus',attributes:['UŽUOJAUTA','GUDRUMAS'],statCheck:{stat:'wit',threshold:7,successText:'Praeivio žodžiai atidaro duris, kurių nepastebėtumėte vienas.'}}]},
+    2:{id:2,isFinale:false,narrative:`Aikštė atsiveria prieš tave — didžiulė ir tuščia, tik bažnyčios bokštai kerta naktinį dangų. Aikštės akmenimis atsimuša tavo žingsniai kaip aidas iš praeities. Kažkur toli šuo suloja, ir garsas nutolsta per senamiesčio labirintą. Tu sedi ant šaltų laiptų ir klausaisi kaip miestas kvepia po lietaus — žemė, akmuo, vėjas neša medžių lapus iš kelkraščių.`,location:'',imageTags:{background:'cathedral_sq',atmosphere:'night'},choices:[{text:'Grįžti prie akmens',attributes:['INTUICIJA','DRĄSA']},{text:'Sėdėti ir klausytis miesto',attributes:['KANTRYBĖ','TIKĖJIMAS']},{text:'Eiti link Gedimino bokšto',attributes:['AMBICIJA','RYŽTAS']},{text:'Rašyti ką nors kreida ant šaligatvio',attributes:['VILTIS','GUDRUMAS']}]},
     3:{id:3,isFinale:false,narrative:`Akmuo šaltas ir netikėtai sunkus dėl savo dydžio. Ant jo apačios įrėžti ženklai — per seni, kad būtų lietuviškas raidynas. Galbūt rūnos, galbūt tik atsitiktiniai įbrėžimai po amžių dūžių. Tavo pirštai seka juos kaip raidžių kontūrus, nors proto balsas sako, kad tai tik fantazija. Pilies gatvė toliau tuščia. Akmuo šilsta tavo rankose lyg jis irgi lauktų kažko svarbaus.`,location:'Pilies gatvė',imageTags:{background:'street_narrow',atmosphere:'night'},choices:[{text:'Nešti akmenį su savimi',attributes:['AMBICIJA','RYŽTAS']},{text:'Padėti atgal tiksliai kaip buvo',attributes:['GARBĖ','KANTRYBĖ']},{text:'Bandyti iššifruoti ženklus',attributes:['IŠMINTIS','DĖMESYS'],statCheck:{stat:'wit',threshold:6,successText:'Ženklai tampa aiškūs — sena žymė, kurią kažkas paliko tyčia.'}},{text:'Mesti akmenį į tamsą',attributes:['BAIMĖ','ABEJINGUMAS']}]},
     4:{id:4,isFinale:false,narrative:`Iš arti matyti daugiau. Akmens paviršius ne toks lygus — jis išraustas daugybės mažų įrėžimų, sudarančių tam tikrą raštą. Kažkas čia dirbo ilgai ir kruopščiai. Literatų gatvė netoli — galbūt kažkuriame iš senų namų slypi atsakymas. Tavo keliai šiek tiek skauda nuo klūpojimo ant šaltų grindinio akmenų, bet tu negali atitraukti žvilgsnio nuo tų ženklų.`,location:'Literatų gatvė',imageTags:{background:'street_narrow',atmosphere:'fog'},choices:[{text:'Eiti ieškoti informacijos',attributes:['IŠMINTIS','RYŽTAS']},{text:'Fotografuoti ženklus',attributes:['DĖMESYS','GUDRUMAS']},{text:'Palikti ir mąstyti apie tai',attributes:['KANTRYBĖ','TIKĖJIMAS']},{text:'Klausti vietinių',attributes:['UŽUOJAUTA','GARBĖ']}]},
     5:{id:5,isFinale:false,narrative:`Neries krantinė naktyje — juodas veidrodis atspindintis miesto žiburius. Upė teka labai lėtai šią naktį, tarsi ji irgi mąsto. Krantinės žibintai meta ilgus šešėlius ant vandens paviršiaus. Kažkur upės gilumoje kažkas blizga — gal tik atspindys, gal kažkas daugiau nei atspindys.`,location:'Neries krantinė',imageTags:{background:'river_bank',atmosphere:'night'},choices:[{text:'Sėdėti prie upės ir galvoti',attributes:['KANTRYBĖ','INTUICIJA']},{text:'Mesti akmenį į upę',attributes:['RYŽTAS','AMBICIJA']},{text:'Eiti per tiltą',attributes:['DRĄSA','VILTIS']},{text:'Grįžti į senamiesčio kiemus',attributes:['GUDRUMAS','DĖMESYS']}]},
@@ -369,8 +368,7 @@ window.STORIES[2] = {
   }
 };
 </script>
-<script>
-// ── ENGINE ────────────────────────────────────────────────
+  <script>
 window.STORIES = window.STORIES || {};
 
 // Speed presets: multiplier affects all timed things
